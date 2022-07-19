@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-bing {
+    @apply bg-zinc-500;
+    background-image: url(https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+@layer components {
+  .menu-item {
+    @apply cursor-default py-2.5 pl-8 pr-24 text-left outline-0 hover:bg-zinc-700 focus:bg-zinc-700 disabled:text-zinc-400 disabled:hover:bg-zinc-800;
+
+    &-compact {
+      @apply menu-item py-1.5 pl-6 pr-20;
+    }
+
+    &-open {
+      @apply bg-zinc-700;
+    }
+  }
+  .menu {
+    @apply flex flex-col border border-zinc-400 bg-zinc-800 py-2 px-0.5 text-xs text-zinc-100 outline-none;
+  }
+}
