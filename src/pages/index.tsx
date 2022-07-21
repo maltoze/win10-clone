@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
-import { useEffect, useRef } from 'react';
-import ContextMenu from '../components/base/ContextMenu';
+import { useEffect } from 'react';
+import Apps from '../apps';
 import Desktop from '../components/desktop/Desktop';
 import Taskbar from '../components/taskbar/Taskbar';
 
@@ -19,6 +19,7 @@ const Home: NextPage = () => {
     <div className="bg-bing flex h-screen flex-col">
       <Desktop />
       <Taskbar />
+      <Apps />
     </div>
   );
 };

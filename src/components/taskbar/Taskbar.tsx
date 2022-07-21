@@ -1,26 +1,30 @@
 import WinLogo from '../icons/WinLogo';
-import IconWrapper from './IconWrapper';
 import WinSearch from '../icons/WinSearch';
 import Clock from './Clock';
 import ChromeIcon from '../icons/ChromeIcon';
 import { useCallback, useState } from 'react';
 import ContextMenu from '../base/ContextMenu';
-
-const apps = [
-  {
-    component: (
-      <WinLogo className="block h-5 w-5 fill-white group-hover:fill-blue-500" />
-    ),
-  },
-  {
-    component: <WinSearch className="block h-6 w-6 fill-white" />,
-  },
-  {
-    component: <ChromeIcon className="block h-6 w-6" />,
-  },
-];
+import { useStore } from '../../store';
+import IconButton from './IconButton';
 
 const Taskbar = () => {
+  const openApp = useStore((state) => state.open);
+
+  const apps = [
+    {
+      component: (
+        <WinLogo className="block h-5 w-5 fill-white group-hover:fill-blue-500" />
+      ),
+    },
+    {
+      component: <WinSearch className="block h-6 w-6 fill-white" />,
+    },
+    {
+      component: <ChromeIcon className="block h-6 w-6" />,
+      onClick: () => openApp('chrome'),
+    },
+  ];
+
   const menuItems = [
     [{ label: 'Toolbars', disabled: true }],
     [
@@ -57,7 +61,11 @@ const Taskbar = () => {
       >
         <div className="flex">
           {apps.map((app, index) => (
-            <IconWrapper key={index}>{app.component}</IconWrapper>
+            <IconButton
+              key={index}
+              onClick={app.onClick}
+              icon={app.component}
+            />
           ))}
         </div>
         <div>

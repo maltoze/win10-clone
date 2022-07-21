@@ -29,6 +29,7 @@ const Desktop = () => {
       { label: 'Paste', disabled: true },
       { label: 'Paste shortcut', disabled: true },
     ],
+    [{ label: 'Display settings' }, { label: 'Personalize', disabled: true }],
   ];
 
   const [trigger, setTrigger] = useState<HTMLElement | null>(null);
