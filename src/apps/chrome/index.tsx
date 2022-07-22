@@ -1,5 +1,5 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
+import React, { Fragment, useRef } from 'react';
 import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import WindowTransition from '../../components/WindowTransition';
 import { useStore } from '../../store';
@@ -11,13 +11,15 @@ const Chrome = () => {
     close: state.close,
   }));
 
+  const panelsRef = useRef<HTMLDivElement>(null);
+
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog onClose={() => {}}>
+      <Dialog onClose={() => {}} initialFocus={panelsRef}>
         <div className="fixed top-0 bottom-11 flex w-full bg-zinc-800">
           <WindowTransition>
             <Dialog.Panel className="w-full">
-              <Tab.Group>
+              <Tab.Group as="div" className="flex h-full flex-col">
                 <div className="flex bg-zinc-900">
                   <Tab.List className="h-10 grow bg-zinc-900 px-2 pt-2 text-xs text-zinc-100">
                     <Tab className="relative h-full w-60 cursor-default rounded-t-lg bg-zinc-700 pl-4 pr-2 text-left outline-0">
@@ -32,11 +34,11 @@ const Chrome = () => {
                     <WindowCloseButton onClick={() => close('chrome')} />
                   </div>
                 </div>
-                <Tab.Panels>
-                  <Tab.Panel>
-                    <div className="flex flex-col bg-zinc-700">
+                <Tab.Panels ref={panelsRef} className="grow">
+                  <Tab.Panel className="h-full">
+                    <div className="flex h-full flex-col bg-zinc-700">
                       <AddressBar />
-                      <div className="border-t border-zinc-500"></div>
+                      <div className="grow border-t border-zinc-500 bg-zinc-800"></div>
                     </div>
                   </Tab.Panel>
                 </Tab.Panels>
