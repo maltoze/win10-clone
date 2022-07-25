@@ -1,11 +1,11 @@
-import WinLogo from '../icons/WinLogo';
-import WinSearch from '../icons/WinSearch';
-import Clock from './Clock';
-import ChromeIcon from '../icons/ChromeIcon';
+import WinLogo from '../components/icons/WinLogo';
+import WinSearch from '../components/icons/WinSearch';
+import Clock from '../components/taskbar/Clock';
+import ChromeIcon from '../components/icons/ChromeIcon';
 import { useCallback, useState } from 'react';
-import ContextMenu from '../base/ContextMenu';
-import { useStore } from '../../store';
-import IconButton from './IconButton';
+import ContextMenu from '../components/base/ContextMenu';
+import { useStore } from '../store';
+import IconButton from '../components/taskbar/IconButton';
 
 const Taskbar = () => {
   const openApp = useStore((state) => state.open);
@@ -56,7 +56,7 @@ const Taskbar = () => {
   return (
     <>
       <div
-        className="flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
+        className="z-50 flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
         ref={tbRef}
       >
         <div className="flex">

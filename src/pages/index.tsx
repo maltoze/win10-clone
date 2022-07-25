@@ -1,12 +1,9 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
-import Apps from '../apps';
-import Desktop from '../components/desktop/Desktop';
-import Taskbar from '../components/taskbar/Taskbar';
-import useHydration from '../hooks/hydration';
+import Desktop from '../containers/desktop/Desktop';
+import Taskbar from '../containers/Taskbar';
 
 const Home: NextPage = () => {
-  const hydrated = useHydration();
 
   useEffect(() => {
     const handleRightClick = (e: MouseEvent) => {
@@ -22,7 +19,6 @@ const Home: NextPage = () => {
     <div className="bg-bing flex h-screen flex-col">
       <Desktop />
       <Taskbar />
-      {hydrated && <Apps />}
     </div>
   );
 };

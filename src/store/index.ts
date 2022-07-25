@@ -4,6 +4,8 @@ import { persist } from 'zustand/middleware';
 
 type AppState = {
   isOpen?: boolean;
+  top?: number;
+  left?: number;
 };
 
 type AppSlice = {
@@ -12,6 +14,7 @@ type AppSlice = {
   };
   open: (appName: string) => void;
   close: (appName: string) => void;
+  moveWindow: (appName: string, left: number, top: number) => void;
 };
 
 const createAppSlice: StateCreator<
@@ -20,10 +23,18 @@ const createAppSlice: StateCreator<
   []
 > = (set) => ({
   apps: {},
+  moveWindow: (appName, left, top) =>
+    set((state) => {
+      state.apps[appName] = {
+        ...state.apps[appName],
+        top,
+        left,
+      };
+    }),
   open: (app) =>
     set((state) => {
       if (!state.apps[app]) {
-        state.apps[app] = { isOpen: true };
+        state.apps[app] = { isOpen: true, top: 0, left: 0 };
       } else {
         state.apps[app].isOpen = true;
       }
