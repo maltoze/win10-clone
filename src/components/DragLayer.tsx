@@ -3,25 +3,6 @@ import Chrome from '../apps/chrome';
 import ChromePreview from '../apps/chrome/ChromePreview';
 import { DragItemTypes } from '../constants';
 
-function getItemStyles(
-  initialOffset: XYCoord | null,
-  currentOffset: XYCoord | null
-) {
-  if (!initialOffset || !currentOffset) {
-    return {
-      display: 'none',
-    };
-  }
-
-  let { x, y } = currentOffset;
-  const transform = `translate(${x}px, ${y}px)`;
-
-  return {
-    transform,
-    WebkitTransform: transform,
-  };
-}
-
 const DragLayer = () => {
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({

@@ -1,6 +1,6 @@
-import { Tab } from "@headlessui/react";
-import WindowCloseButton from "../../components/base/buttons/WindowCloseButton";
-import AddressBar from "./components/AddressBar";
+import { Tab } from '@headlessui/react';
+import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
+import AddressBar from './components/AddressBar';
 
 const ChromePreview = () => {
   return (
@@ -19,7 +19,7 @@ const ChromePreview = () => {
           <WindowCloseButton />
         </div>
       </div>
-      <Tab.Panels  className="grow">
+      <Tab.Panels className="grow">
         <Tab.Panel className="h-full">
           <div className="flex h-full flex-col bg-zinc-700">
             <AddressBar />
@@ -30,3 +30,5 @@ const ChromePreview = () => {
     </Tab.Group>
   );
 };
+
+export default ChromePreview;
