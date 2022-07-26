@@ -35,7 +35,6 @@ import React, {
 } from 'react';
 import { mergeRefs } from 'react-merge-refs';
 import cx from 'classnames';
-import classNames from 'classnames';
 
 type Props = {
   label?: string;
@@ -342,6 +341,7 @@ const ContextMenu = ({
 }: ContextMenuProps) => {
   return (
     <NestedContextMenu className="menu" trigger={trigger}>
+      {/* TODO recursively iterate through all menu items */}
       {menuItems.map((group, gIdx) => [
         ...group.map((item, idx) => {
           return item.submenus && item.submenus?.length > 0 ? (

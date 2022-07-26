@@ -1,14 +1,9 @@
 import { useDrop, XYCoord } from 'react-dnd';
 import Chrome from '../../apps/chrome';
+import Window from '../../components/Window';
+import { DragItemTypes } from '../../constants';
 import { useStore } from '../../store';
-import { AppWindowProps } from '../../types';
-
-type DragItem = {
-  id: string;
-  name: string;
-  top: number;
-  left: number;
-};
+import { AppWindowProps, DragItem } from '../../types';
 
 const appComponents: {
   [key: string]: (props: AppWindowProps) => JSX.Element;
@@ -24,7 +19,7 @@ const OpenedApp = () => {
 
   const [, drop] = useDrop(
     () => ({
-      accept: 'window',
+      accept: DragItemTypes.WINDOW,
       drop(item: DragItem, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as XYCoord;
         const left = Math.round(item.left + delta.x);
@@ -41,7 +36,18 @@ const OpenedApp = () => {
         if (appName) {
           const { left, top } = apps[appName];
           const Component = appComponents[appName];
-          return <Component key={appName} left={left} top={top} />;
+          return (
+            <Window left={left} top={top} name={appName} key={appName}>
+              {({ dragPreview, drag }) => (
+                <Component
+                  left={left}
+                  top={top}
+                  dragPreviewRef={dragPreview}
+                  dragRef={drag}
+                />
+              )}
+            </Window>
+          );
         }
       })}
     </div>
