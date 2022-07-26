@@ -228,7 +228,7 @@ const ContextMenuBase = forwardRef<any, Props>(
 
         <FloatingPortal>
           {open && (
-            <FloatingOverlay lockScroll>
+            <FloatingOverlay lockScroll className="z-50">
               <FloatingFocusManager
                 context={context}
                 preventTabbing

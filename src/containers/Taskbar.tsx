@@ -56,7 +56,7 @@ const Taskbar = () => {
   return (
     <>
       <div
-        className="z-50 flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
+        className="z-40 flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
         ref={tbRef}
       >
         <div className="flex">
