@@ -1,22 +1,26 @@
 import { useDragLayer, XYCoord } from 'react-dnd';
-import Chrome from '../apps/chrome';
-import ChromePreview from '../apps/chrome/ChromePreview';
+import ChromePanel from '../apps/chrome/ChromePanel';
 import { DragItemTypes } from '../constants';
+import { DragItem } from '../types';
+
+const itemComponents: { [key: string]: JSX.Element } = {
+  chrome: <ChromePanel />,
+};
 
 const DragLayer = () => {
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({
-      item: monitor.getItem(),
+      item: monitor.getItem() as DragItem,
       itemType: monitor.getItemType(),
       initialOffset: monitor.getInitialSourceClientOffset(),
       currentOffset: monitor.getSourceClientOffset(),
       isDragging: monitor.isDragging(),
     }));
 
-  const renderItem = (currentOffset: XYCoord) => {
+  const renderItem = () => {
     switch (itemType) {
       case DragItemTypes.WINDOW:
-        return <Chrome preview offset={currentOffset} />;
+        return itemComponents[item.id];
       default:
         return null;
     }
@@ -35,7 +39,7 @@ const DragLayer = () => {
             transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`,
           }}
         >
-          <ChromePreview />
+          {renderItem()}
         </div>
       )}
     </div>
