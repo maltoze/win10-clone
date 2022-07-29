@@ -1,6 +1,7 @@
 import React from 'react';
 import { ConnectDragPreview, ConnectDragSource, useDrag } from 'react-dnd';
-import { AppWindowProps } from '../types';
+import { DragItemTypes } from '../../constants';
+import { AppWindowProps } from '../../types';
 
 type Props = {
   name: string;
@@ -16,7 +17,7 @@ type Props = {
 const Window = ({ name, left, top, children }: Props) => {
   const [{ isDragging }, drag, dragPreview] = useDrag(
     () => ({
-      type: 'window',
+      type: DragItemTypes.WINDOW,
       item: { id: name, left, top },
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),

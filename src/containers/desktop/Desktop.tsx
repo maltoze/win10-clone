@@ -4,6 +4,7 @@ import useHydration from '../../hooks/hydration';
 import ContextMenu from '../../components/base/ContextMenu';
 import OpenedApp from './OpenedApp';
 import { DndProvider } from 'react-dnd';
+import WindowDragLayer from '../../components/window/WindowDragLayer';
 
 const Desktop = () => {
   const hydrated = useHydration();
@@ -50,6 +51,7 @@ const Desktop = () => {
       <div ref={containerRef} className="flex-grow">
         <DndProvider backend={HTML5Backend}>
           {hydrated && <OpenedApp />}
+          <WindowDragLayer />
         </DndProvider>
       </div>
       <ContextMenu menuItems={menuItems} trigger={trigger} />
