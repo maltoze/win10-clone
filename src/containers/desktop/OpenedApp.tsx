@@ -1,6 +1,6 @@
 import { useDrop, XYCoord } from 'react-dnd';
 import Chrome from '../../apps/chrome';
-import Window from '../../components/Window';
+import Window from '../../components/window/Window';
 import { DragItemTypes } from '../../constants';
 import { useStore } from '../../store';
 import { AppWindowProps, DragItem } from '../../types';

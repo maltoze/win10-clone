@@ -1,7 +1,7 @@
-import { useDragLayer, XYCoord } from 'react-dnd';
-import ChromePanel from '../apps/chrome/ChromePanel';
-import { DragItemTypes } from '../constants';
-import { DragItem } from '../types';
+import { useDragLayer } from 'react-dnd';
+import ChromePanel from '../../apps/chrome/ChromePanel';
+import { DragItemTypes } from '../../constants';
+import { DragItem } from '../../types';
 
 const itemComponents: { [key: string]: JSX.Element } = {
   chrome: <ChromePanel />,

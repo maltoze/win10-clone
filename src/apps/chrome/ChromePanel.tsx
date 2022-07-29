@@ -13,7 +13,7 @@ type Props = {
 };
 
 const ChromePanel = forwardRef<HTMLDivElement, Props>(
-  function ChromePanelWithRef({ dragRef, preview }, ref) {
+  function ChromePanelWithRef({ dragRef }, ref) {
     const close = useStore((state) => state.close);
 
     return (
@@ -23,7 +23,10 @@ const ChromePanel = forwardRef<HTMLDivElement, Props>(
             <ChromeTab>New Tab</ChromeTab>
           </Tab.List>
           <div>
-            <WindowCloseButton onClick={() => close(appName)} />
+            <WindowCloseButton
+              onClick={() => close(appName)}
+              onMouseDown={(event) => event.preventDefault()}
+            />
           </div>
         </div>
         <Tab.Panels className="grow" ref={ref}>

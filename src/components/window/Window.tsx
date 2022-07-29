@@ -1,7 +1,7 @@
 import React from 'react';
 import { ConnectDragPreview, ConnectDragSource, useDrag } from 'react-dnd';
-import { DragItemTypes } from '../constants';
-import { AppWindowProps } from '../types';
+import { DragItemTypes } from '../../constants';
+import { AppWindowProps } from '../../types';
 
 type Props = {
   name: string;

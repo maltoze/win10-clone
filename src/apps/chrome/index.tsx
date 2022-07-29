@@ -1,18 +1,15 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
 import React, { Fragment, useRef } from 'react';
-import WindowTransition from '../../components/WindowTransition';
+import WindowTransition from '../../components/window/WindowTransition';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
-import cx from 'classnames';
 import ChromePanel from './ChromePanel';
 
 export const appName = 'chrome';
 
 const Chrome = ({ left, top, dragPreviewRef, dragRef }: AppWindowProps) => {
-  const { isOpen, close, chrome } = useStore((state) => ({
+  const { isOpen } = useStore((state) => ({
     isOpen: state.apps?.chrome?.isOpen || false,
-    close: state.close,
-    chrome: state.apps?.chrome,
   }));
 
   const panelsRef = useRef<HTMLDivElement>(null);
@@ -20,14 +17,11 @@ const Chrome = ({ left, top, dragPreviewRef, dragRef }: AppWindowProps) => {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog onClose={() => {}} initialFocus={panelsRef}>
-        <div className={cx('fixed bottom-11 flex w-full bg-zinc-800', {})}>
+        <div className="fixed bottom-11 flex w-full bg-zinc-800">
           <WindowTransition>
             <div
               className="fixed bottom-11 flex w-full"
-              style={{
-                left,
-                top,
-              }}
+              style={{ left, top }}
               ref={dragPreviewRef}
             >
               <Dialog.Panel className="w-full">

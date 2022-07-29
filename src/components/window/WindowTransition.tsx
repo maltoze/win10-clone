@@ -1,6 +1,6 @@
 import { Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { ChildrenProps } from '../types';
+import { ChildrenProps } from '../../types';
 
 const WindowTransition = ({ children }: ChildrenProps) => (
   <Transition.Child
