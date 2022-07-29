@@ -58,6 +58,7 @@ const Taskbar = () => {
       <div
         className="z-40 flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
         ref={tbRef}
+        data-testid="taskbar"
       >
         <div className="flex">
           {apps.map((app, index) => (

@@ -48,7 +48,7 @@ const Desktop = () => {
 
   return (
     <>
-      <div ref={containerRef} className="flex-grow">
+      <div ref={containerRef} className="flex-grow" data-testid="desktop">
         <DndProvider backend={HTML5Backend}>
           {hydrated && <OpenedApp />}
           <WindowDragLayer />
