@@ -31,7 +31,7 @@ const DragLayer = () => {
   }
 
   return (
-    <div className="pointer-events-none fixed top-0  left-0 h-full w-full">
+    <div className="pointer-events-none fixed top-0 left-0 h-full w-full">
       {currentOffset && (
         <div
           className="h-full"
