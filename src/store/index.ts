@@ -6,6 +6,8 @@ type AppState = {
   isOpen?: boolean;
   top?: number;
   left?: number;
+  originTop?: number;
+  originLeft?: number;
 };
 
 type AppSlice = {
@@ -15,6 +17,7 @@ type AppSlice = {
   open: (appName: string) => void;
   close: (appName: string) => void;
   moveWindow: (appName: string, left: number, top: number) => void;
+  doubleClickTitlebar: (appName: string) => void;
 };
 
 const createAppSlice: StateCreator<
@@ -29,6 +32,17 @@ const createAppSlice: StateCreator<
         ...state.apps[appName],
         top,
         left,
+        originLeft: left,
+        originTop: top,
+      };
+    }),
+  doubleClickTitlebar: (appName) =>
+    set((state) => {
+      const { left, top, originLeft, originTop } = state.apps[appName];
+      state.apps[appName] = {
+        ...state.apps[appName],
+        left: left === 0 ? originLeft : 0,
+        top: top === 0 ? originTop : 0,
       };
     }),
   open: (app) =>
