@@ -7,10 +7,8 @@ import ChromePanel from './ChromePanel';
 
 export const appName = 'chrome';
 
-const Chrome = ({ left, top, dragPreviewRef, dragRef }: AppWindowProps) => {
-  const { isOpen } = useStore((state) => ({
-    isOpen: state.apps?.chrome?.isOpen || false,
-  }));
+const Chrome = ({ dragPreviewRef, dragRef }: AppWindowProps) => {
+  const { isOpen, left, top } = useStore((state) => state.apps[appName]);
 
   const panelsRef = useRef<HTMLDivElement>(null);
 

@@ -33,22 +33,15 @@ const OpenedApp = () => {
   return (
     <div ref={drop} className="h-full w-full">
       {Object.keys(apps).map((appName) => {
-        if (appName) {
-          const { left, top } = apps[appName];
-          const Component = appComponents[appName];
-          return (
-            <Window left={left} top={top} name={appName} key={appName}>
-              {({ dragPreview, drag }) => (
-                <Component
-                  left={left}
-                  top={top}
-                  dragPreviewRef={dragPreview}
-                  dragRef={drag}
-                />
-              )}
-            </Window>
-          );
-        }
+        const { left, top } = apps[appName];
+        const Component = appComponents[appName];
+        return (
+          <Window left={left} top={top} name={appName} key={appName}>
+            {({ dragPreview, drag }) => (
+              <Component dragPreviewRef={dragPreview} dragRef={drag} />
+            )}
+          </Window>
+        );
       })}
     </div>
   );
