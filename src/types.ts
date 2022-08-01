@@ -14,8 +14,6 @@ export type AppWindowProps = {
   dragPreviewRef?: ConnectDragPreview;
   dragRef?: ConnectDragSource;
   preview?: boolean;
-  initialOffset?: XYCoord;
-  offset?: XYCoord | null;
 };
 
 export type DragItem = {
