@@ -9,26 +9,26 @@ class ResizeObserver {
 
 describe('Home', () => {
   window.ResizeObserver = ResizeObserver;
-  it('should show context menu on desktop', () => {
+
+  beforeEach(() => {
     render(<Home />);
+  });
+
+  it('should show context menu on desktop', () => {
     const desktop = screen.getByTestId('desktop');
     fireEvent.contextMenu(desktop);
     expect(screen.getByRole('menu')).toBeInTheDocument();
-    expect(screen.queryAllByRole('menuitem')).toHaveLength(7);
   });
 
   it('should show context menu on taskbar', () => {
-    render(<Home />);
     const taskbar = screen.getByTestId('taskbar');
     fireEvent.contextMenu(taskbar);
     expect(screen.getByRole('menu')).toBeInTheDocument();
-    expect(screen.queryAllByRole('menuitem')).toHaveLength(11);
   });
 
-  it('should show chrome window', ()=>{
-    render(<Home />);
+  it('should show chrome window', () => {
     const chromeBtn = screen.getByTestId('taskbar-btn-chrome');
     fireEvent.click(chromeBtn);
     expect(screen.getByTestId('chrome-window')).toBeInTheDocument();
-  })
+  });
 });
