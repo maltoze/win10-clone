@@ -21,6 +21,7 @@ const Chrome = ({ dragPreviewRef, dragRef }: AppWindowProps) => {
               className="fixed bottom-11 flex w-full"
               style={{ left, top }}
               ref={dragPreviewRef}
+              data-testid="chrome-window"
             >
               <Dialog.Panel className="w-full">
                 <Tab.Group as="div" className="flex h-full flex-col">

@@ -20,6 +20,7 @@ const Taskbar = () => {
       component: <WinSearch className="block h-6 w-6 fill-white" />,
     },
     {
+      name: 'chrome',
       component: <ChromeIcon className="block h-6 w-6" />,
       onClick: () => openApp('chrome'),
     },
@@ -66,6 +67,7 @@ const Taskbar = () => {
               key={index}
               onClick={app.onClick}
               icon={app.component}
+              data-testid={`taskbar-btn-${app.name}`}
             />
           ))}
         </div>

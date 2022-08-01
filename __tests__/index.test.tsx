@@ -24,4 +24,11 @@ describe('Home', () => {
     expect(screen.getByRole('menu')).toBeInTheDocument();
     expect(screen.queryAllByRole('menuitem')).toHaveLength(11);
   });
+
+  it('should show chrome window', ()=>{
+    render(<Home />);
+    const chromeBtn = screen.getByTestId('taskbar-btn-chrome');
+    fireEvent.click(chromeBtn);
+    expect(screen.getByTestId('chrome-window')).toBeInTheDocument();
+  })
 });
