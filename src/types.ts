@@ -21,3 +21,19 @@ export type DragItem = {
   top: number;
   left: number;
 };
+
+export type Dimensions = {
+  width: number | string;
+  height: number | string;
+};
+
+export type AppState = {
+  isOpen?: boolean;
+  location: {
+    top?: number;
+    left?: number;
+    originTop?: number;
+    originLeft?: number;
+  };
+  dimensions: Dimensions;
+};

@@ -33,7 +33,7 @@ const OpenedApp = () => {
   return (
     <div ref={drop} className="h-full w-full">
       {Object.keys(apps).map((appName) => {
-        const { left, top } = apps[appName];
+        const { left, top } = apps[appName]['location'];
         const Component = appComponents[appName];
         return (
           <Window left={left} top={top} name={appName} key={appName}>

@@ -1,14 +1,8 @@
 import create, { StateCreator } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-
-type AppState = {
-  isOpen?: boolean;
-  top?: number;
-  left?: number;
-  originTop?: number;
-  originLeft?: number;
-};
+import { apps } from '../constants';
+import { AppState, Dimensions } from '../types';
 
 type AppSlice = {
   apps: {
@@ -18,6 +12,7 @@ type AppSlice = {
   close: (appName: string) => void;
   moveWindow: (appName: string, left: number, top: number) => void;
   doubleClickTitlebar: (appName: string) => void;
+  setDimensions: (appName: string, dimensions: Dimensions) => void;
 };
 
 const createAppSlice: StateCreator<
@@ -26,21 +21,27 @@ const createAppSlice: StateCreator<
   []
 > = (set) => ({
   apps: {},
+  setDimensions: (appName, dimensions) =>
+    set((state) => {
+      state.apps[appName].dimensions = dimensions;
+    }),
   moveWindow: (appName, left, top) =>
     set((state) => {
-      state.apps[appName] = {
-        ...state.apps[appName],
-        top,
-        left,
-        originLeft: left,
-        originTop: top,
+      const real_left = left < 0 ? 0 : left;
+      const real_top = top < 0 ? 0 : top;
+      state.apps[appName]['location'] = {
+        top: real_top,
+        left: real_left,
+        originLeft: real_left,
+        originTop: real_top,
       };
     }),
   doubleClickTitlebar: (appName) =>
     set((state) => {
-      const { left, top, originLeft, originTop } = state.apps[appName];
-      state.apps[appName] = {
-        ...state.apps[appName],
+      const { left, top, originLeft, originTop } =
+        state.apps[appName]['location'];
+      state.apps[appName]['location'] = {
+        ...state.apps[appName]['location'],
         left: left === 0 ? originLeft : 0,
         top: top === 0 ? originTop : 0,
       };
@@ -48,18 +49,17 @@ const createAppSlice: StateCreator<
   open: (app) =>
     set((state) => {
       if (!state.apps[app]) {
-        state.apps[app] = { isOpen: true, top: 0, left: 0 };
+        state.apps[app] = {
+          ...apps[app].defaultState,
+          isOpen: true,
+        };
       } else {
         state.apps[app].isOpen = true;
       }
     }),
   close: (app) =>
     set((state) => {
-      if (!state.apps[app]) {
-        state.apps[app] = { isOpen: false };
-      } else {
-        state.apps[app].isOpen = false;
-      }
+      state.apps[app].isOpen = false;
     }),
 });
 

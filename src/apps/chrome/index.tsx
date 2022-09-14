@@ -8,7 +8,11 @@ import ChromePanel from './ChromePanel';
 export const appName = 'chrome';
 
 const Chrome = ({ dragPreviewRef, dragRef }: AppWindowProps) => {
-  const { isOpen, left, top } = useStore((state) => state.apps[appName]);
+  const {
+    isOpen,
+    location: { left, top },
+    dimensions: { width, height },
+  } = useStore((state) => state.apps[appName]);
 
   const panelsRef = useRef<HTMLDivElement>(null);
 
