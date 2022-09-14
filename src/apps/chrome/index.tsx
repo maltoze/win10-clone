@@ -7,7 +7,7 @@ import ChromePanel from './ChromePanel';
 
 export const appName = 'chrome';
 
-const Chrome = ({ dragPreviewRef, dragRef }: AppWindowProps) => {
+const Chrome = () => {
   const {
     isOpen,
     location: { left, top },
@@ -23,13 +23,12 @@ const Chrome = ({ dragPreviewRef, dragRef }: AppWindowProps) => {
           <WindowTransition>
             <div
               className="fixed bottom-11 flex w-full"
-              style={{ left, top }}
-              ref={dragPreviewRef}
+              style={{ left, top, width, height }}
               data-testid="chrome-window"
             >
               <Dialog.Panel className="w-full">
                 <Tab.Group as="div" className="flex h-full flex-col">
-                  <ChromePanel dragRef={dragRef} ref={panelsRef} />
+                  <ChromePanel ref={panelsRef} />
                 </Tab.Group>
               </Dialog.Panel>
             </div>

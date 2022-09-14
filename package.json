@@ -20,6 +20,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "18.2.0",
     "react-merge-refs": "^2.0.1",
+    "react-rnd": "^10.3.7",
     "zustand": "4.0.0-rc.4"
   },
   "devDependencies": {

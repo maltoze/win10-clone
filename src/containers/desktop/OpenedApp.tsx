@@ -1,7 +1,8 @@
 import { useDrop, XYCoord } from 'react-dnd';
+import { Rnd } from 'react-rnd';
 import Chrome from '../../apps/chrome';
 import Window from '../../components/window/Window';
-import { DragItemTypes } from '../../constants';
+import { apps as appsConfig, DragItemTypes } from '../../constants';
 import { useStore } from '../../store';
 import { AppWindowProps, DragItem } from '../../types';
 
@@ -12,9 +13,10 @@ const appComponents: {
 };
 
 const OpenedApp = () => {
-  const { apps, moveWindow } = useStore((state) => ({
+  const { apps, moveWindow, setDimensions } = useStore((state) => ({
     apps: state.apps,
     moveWindow: state.moveWindow,
+    setDimensions: state.setDimensions,
   }));
 
   const [, drop] = useDrop(
@@ -31,17 +33,43 @@ const OpenedApp = () => {
     [moveWindow]
   );
   return (
-    <div ref={drop} className="h-full w-full">
+    <div className="h-full w-full">
       {Object.keys(apps).map((appName) => {
-        const { left, top } = apps[appName]['location'];
+        const {
+          isOpen,
+          location: { left, top },
+          dimensions: { width, height },
+        } = apps[appName];
         const Component = appComponents[appName];
-        return (
-          <Window left={left} top={top} name={appName} key={appName}>
-            {({ dragPreview, drag }) => (
-              <Component dragPreviewRef={dragPreview} dragRef={drag} />
-            )}
-          </Window>
-        );
+        const { minWidth, minHeight } = appsConfig[appName];
+
+        if (isOpen) {
+          return (
+            <Rnd
+              key={appName}
+              size={{ width, height }}
+              position={{ x: left || 0, y: top || 0 }}
+              onDrag={(e, d) => moveWindow(appName, d.x, d.y)}
+              onResize={(e, direction, ref, delta, position) => {
+                setDimensions(appName, {
+                  width: ref.style.width,
+                  height: ref.style.height,
+                });
+              }}
+              minHeight={minHeight}
+              minWidth={minWidth}
+              dragHandleClassName={`${appName}-drag-handle`}
+              resizeHandleStyles={{
+                top: { cursor: 'ns-resize' },
+                bottom: { cursor: 'ns-resize' },
+                left: { cursor: 'ew-resize' },
+                right: { cursor: 'ew-resize' },
+              }}
+            >
+              <Component />
+            </Rnd>
+          );
+        }
       })}
     </div>
   );

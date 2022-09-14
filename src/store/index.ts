@@ -27,7 +27,7 @@ const createAppSlice: StateCreator<
     }),
   moveWindow: (appName, left, top) =>
     set((state) => {
-      const real_left = left < 0 ? 0 : left;
+      const real_left = left;
       const real_top = top < 0 ? 0 : top;
       state.apps[appName]['location'] = {
         top: real_top,

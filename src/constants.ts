@@ -5,7 +5,11 @@ export const DragItemTypes = {
 };
 
 type AppsType = {
-  [key: string]: { defaultState: AppState };
+  [key: string]: {
+    defaultState: AppState;
+    minWidth: number;
+    minHeight: number;
+  };
 };
 export const apps: AppsType = {
   chrome: {
@@ -13,5 +17,7 @@ export const apps: AppsType = {
       location: { top: 0, left: 0 },
       dimensions: { width: '100%', height: '100%' },
     },
+    minWidth: 300,
+    minHeight: 76,
   },
 };

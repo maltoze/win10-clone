@@ -13,17 +13,16 @@ type Props = {
 };
 
 const ChromePanel = forwardRef<HTMLDivElement, Props>(
-  function ChromePanelWithRef({ dragRef }, ref) {
+  function ChromePanelWithRef({}, ref) {
     const { close, doubleClickTitlebar } = useStore();
 
     return (
       <Tab.Group as="div" className="flex h-full flex-col">
         <div
-          className="flex bg-zinc-900"
-          ref={dragRef}
+          className={`flex bg-zinc-900 ${appName}-drag-handle`}
           onDoubleClick={() => doubleClickTitlebar(appName)}
         >
-          <Tab.List className="h-10 grow  px-2 pt-2 text-xs text-zinc-100">
+          <Tab.List className="h-10 grow px-2 pt-2 text-xs text-zinc-100">
             <ChromeTab>New Tab</ChromeTab>
           </Tab.List>
           <div>
