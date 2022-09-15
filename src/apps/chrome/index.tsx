@@ -1,20 +1,31 @@
 import { Dialog, Tab, Transition } from '@headlessui/react';
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import WindowTransition from '../../components/window/WindowTransition';
+import { apps } from '../../constants';
 import { useStore } from '../../store';
-import { AppWindowProps } from '../../types';
 import ChromePanel from './ChromePanel';
 
-export const appName = 'chrome';
+export const appName = apps.chrome.name;
 
 const Chrome = () => {
-  const {
-    isOpen,
-    location: { left, top },
-    dimensions: { width, height },
-  } = useStore((state) => state.apps[appName]);
+  const { isOpen, location, dimensions } = useStore(
+    (state) => state.apps[appName]
+  );
 
   const panelsRef = useRef<HTMLDivElement>(null);
+
+  const locationRef = useRef(location);
+  const dimensionsRef = useRef(dimensions);
+  console.log('render----------');
+
+  useEffect(
+    () =>
+      useStore.subscribe((state) => {
+        locationRef.current = state.apps[appName].location;
+        dimensionsRef.current = state.apps[appName].dimensions;
+      }),
+    []
+  );
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -23,7 +34,10 @@ const Chrome = () => {
           <WindowTransition>
             <div
               className="fixed bottom-11 flex w-full"
-              style={{ left, top, width, height }}
+              style={{
+                height: `calc(100% - 44px)`,
+                transform: `translate(${locationRef.current.left}px, ${locationRef.current.top}px)`,
+              }}
               data-testid="chrome-window"
             >
               <Dialog.Panel className="w-full">

@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@floating-ui/react-dom-interactions': ^0.6.6
-  '@headlessui/react': ^1.6.6
+  '@headlessui/react': ^1.7.1
   '@testing-library/dom': ^8.16.0
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
@@ -37,7 +37,7 @@ specifiers:
 
 dependencies:
   '@floating-ui/react-dom-interactions': 0.6.6_bb2bxwco6ptpubzwpazr52qf6i
-  '@headlessui/react': 1.6.6_biqbaboplfbrettd7655fr4n2y
+  '@headlessui/react': 1.7.1_biqbaboplfbrettd7655fr4n2y
   classnames: 2.3.1
   immer: 9.0.15
   next: 12.3.0_biqbaboplfbrettd7655fr4n2y
@@ -467,8 +467,8 @@ packages:
       - '@types/react'
     dev: false
 
-  /@headlessui/react/1.6.6_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-MFJtmj9Xh/hhBMhLccGbBoSk+sk61BlP6sJe4uQcVMtXZhCgGqd2GyIQzzmsdPdTEWGSF434CBi8mnhR6um46Q==}
+  /@headlessui/react/1.7.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-vnRlB71kvEr3y26Lm1WpCiMML8n5JcJ7jK5+vaF0hGTZFArW206j61meVemXkTOuGLhmyWe6yj3OETzsxHoryQ==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18

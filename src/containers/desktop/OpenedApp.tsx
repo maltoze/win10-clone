@@ -47,14 +47,18 @@ const OpenedApp = () => {
           return (
             <Rnd
               key={appName}
-              size={{ width, height }}
               position={{ x: left || 0, y: top || 0 }}
-              onDrag={(e, d) => moveWindow(appName, d.x, d.y)}
+              size={{ width, height }}
+              onDrag={(e, d) => {
+                moveWindow(appName, d.x, d.y);
+              }}
+              cancel=".drag-cancel"
               onResize={(e, direction, ref, delta, position) => {
                 setDimensions(appName, {
                   width: ref.style.width,
                   height: ref.style.height,
                 });
+                moveWindow(appName, position.x, position.y);
               }}
               minHeight={minHeight}
               minWidth={minWidth}

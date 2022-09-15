@@ -25,6 +25,8 @@ export type DragItem = {
 export type Dimensions = {
   width: number | string;
   height: number | string;
+  originWidth?: number | string;
+  originHeight?: number | string;
 };
 
 export type AppState = {

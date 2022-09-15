@@ -21,9 +21,14 @@ const createAppSlice: StateCreator<
   []
 > = (set) => ({
   apps: {},
-  setDimensions: (appName, dimensions) =>
+  setDimensions: (appName, { width, height }) =>
     set((state) => {
-      state.apps[appName].dimensions = dimensions;
+      state.apps[appName].dimensions = {
+        width,
+        height,
+        originWidth: width,
+        originHeight: height,
+      };
     }),
   moveWindow: (appName, left, top) =>
     set((state) => {
@@ -38,12 +43,22 @@ const createAppSlice: StateCreator<
     }),
   doubleClickTitlebar: (appName) =>
     set((state) => {
-      const { left, top, originLeft, originTop } =
-        state.apps[appName]['location'];
+      const {
+        location: { left, top, originLeft, originTop },
+        dimensions: { width, height, originWidth, originHeight },
+      } = state.apps[appName];
+
       state.apps[appName]['location'] = {
-        ...state.apps[appName]['location'],
+        originLeft,
+        originTop,
         left: left === 0 ? originLeft : 0,
         top: top === 0 ? originTop : 0,
+      };
+      state.apps[appName]['dimensions'] = {
+        originHeight,
+        originWidth,
+        width: originWidth && width === '100%' ? originWidth : '100%',
+        height: originHeight && height === '100%' ? originHeight : '100%',
       };
     }),
   open: (app) =>

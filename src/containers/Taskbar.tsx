@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import ContextMenu from '../components/base/ContextMenu';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
+import { apps as appsConfig } from '../constants';
 
 const Taskbar = () => {
   const openApp = useStore((state) => state.open);
@@ -20,9 +21,9 @@ const Taskbar = () => {
       component: <WinSearch className="block h-6 w-6 fill-white" />,
     },
     {
-      name: 'chrome',
+      name: appsConfig.chrome.name,
       component: <ChromeIcon className="block h-6 w-6" />,
-      onClick: () => openApp('chrome'),
+      onClick: () => openApp(appsConfig.chrome.name),
     },
   ];
 
