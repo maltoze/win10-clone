@@ -1,56 +1,49 @@
-import { Dialog, Tab, Transition } from '@headlessui/react';
-import React, { Fragment, useEffect, useRef } from 'react';
-import WindowTransition from '../../components/window/WindowTransition';
-import { apps } from '../../constants';
+import { Tab } from '@headlessui/react';
+import { forwardRef } from 'react';
+import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
-import ChromePanel from './ChromePanel';
+import AddressBar from './components/AddressBar';
+import ChromeTab from './components/ChromeTab';
+import { apps } from '../../constants';
 
 export const appName = apps.chrome.name;
 
-const Chrome = () => {
-  const { isOpen, location, dimensions } = useStore(
-    (state) => state.apps[appName]
-  );
+type Props = {
+  preview?: boolean;
+};
 
-  const panelsRef = useRef<HTMLDivElement>(null);
-
-  const locationRef = useRef(location);
-  const dimensionsRef = useRef(dimensions);
-  console.log('render----------');
-
-  useEffect(
-    () =>
-      useStore.subscribe((state) => {
-        locationRef.current = state.apps[appName].location;
-        dimensionsRef.current = state.apps[appName].dimensions;
-      }),
-    []
-  );
+const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
+  {},
+  ref
+) {
+  const { close, doubleClickTitlebar } = useStore();
 
   return (
-    <Transition show={isOpen} as={Fragment}>
-      <Dialog onClose={() => {}} initialFocus={panelsRef}>
-        <div className="fixed bottom-11 flex w-full bg-zinc-800">
-          <WindowTransition>
-            <div
-              className="fixed bottom-11 flex w-full"
-              style={{
-                height: `calc(100% - 44px)`,
-                transform: `translate(${locationRef.current.left}px, ${locationRef.current.top}px)`,
-              }}
-              data-testid="chrome-window"
-            >
-              <Dialog.Panel className="w-full">
-                <Tab.Group as="div" className="flex h-full flex-col">
-                  <ChromePanel ref={panelsRef} />
-                </Tab.Group>
-              </Dialog.Panel>
-            </div>
-          </WindowTransition>
+    <Tab.Group as="div" className="flex h-full flex-col">
+      <div
+        className={`flex bg-zinc-900 ${appName}-drag-handle`}
+        onDoubleClick={() => doubleClickTitlebar(appName)}
+      >
+        <Tab.List className="h-10 grow px-2 pt-2 text-xs text-zinc-100">
+          <ChromeTab>New Tab</ChromeTab>
+        </Tab.List>
+        <div>
+          <WindowCloseButton
+            onClick={() => close(appName)}
+            onMouseDown={(event) => event.preventDefault()}
+          />
         </div>
-      </Dialog>
-    </Transition>
+      </div>
+      <Tab.Panels className="grow" ref={ref}>
+        <Tab.Panel className="h-full">
+          <div className="flex h-full flex-col bg-zinc-700">
+            <AddressBar />
+            <div className="grow border-t border-zinc-500 bg-zinc-800"></div>
+          </div>
+        </Tab.Panel>
+      </Tab.Panels>
+    </Tab.Group>
   );
-};
+});
 
 export default Chrome;

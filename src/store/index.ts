@@ -43,6 +43,7 @@ const createAppSlice: StateCreator<
     }),
   doubleClickTitlebar: (appName) =>
     set((state) => {
+      // NOTE: https://github.com/react-grid-layout/react-draggable/issues/531
       const {
         location: { left, top, originLeft, originTop },
         dimensions: { width, height, originWidth, originHeight },

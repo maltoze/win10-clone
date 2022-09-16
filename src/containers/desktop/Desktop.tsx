@@ -1,10 +1,7 @@
 import { useCallback, useState } from 'react';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import useHydration from '../../hooks/hydration';
 import ContextMenu from '../../components/base/ContextMenu';
 import OpenedApp from './OpenedApp';
-import { DndProvider } from 'react-dnd';
-import WindowDragLayer from '../../components/window/WindowDragLayer';
 
 const Desktop = () => {
   const hydrated = useHydration();
@@ -49,10 +46,7 @@ const Desktop = () => {
   return (
     <>
       <div ref={containerRef} className="flex-grow" data-testid="desktop">
-        <DndProvider backend={HTML5Backend}>
-          {hydrated && <OpenedApp />}
-          <WindowDragLayer />
-        </DndProvider>
+        {hydrated && <OpenedApp />}
       </div>
       <ContextMenu menuItems={menuItems} trigger={trigger} />
     </>

@@ -1,9 +1,5 @@
 import { AppState } from './types';
 
-export const DragItemTypes = {
-  WINDOW: 'window',
-};
-
 type AppsType = {
   [key: string]: {
     name: string;
