@@ -9,7 +9,10 @@ import IconButton from '../components/taskbar/IconButton';
 import { apps as appsConfig } from '../constants';
 
 const Taskbar = () => {
-  const openApp = useStore((state) => state.open);
+  const { openApp, appsState } = useStore((state) => ({
+    openApp: state.open,
+    appsState: state.apps,
+  }));
 
   const apps = [
     {
@@ -58,13 +61,14 @@ const Taskbar = () => {
   return (
     <>
       <div
-        className="z-40 flex h-11 w-full justify-between bg-zinc-900 pr-2.5"
+        className="z-40 flex h-11 w-full justify-between border-b border-transparent bg-zinc-900 pr-2.5"
         ref={tbRef}
         data-testid="taskbar"
       >
         <div className="flex">
           {apps.map((app, index) => (
             <IconButton
+              isOpen={app.name ? appsState[app.name]?.isOpen ?? false : false}
               key={index}
               onClick={app.onClick}
               icon={app.component}

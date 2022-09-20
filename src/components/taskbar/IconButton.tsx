@@ -1,10 +1,19 @@
-import { IconButtonProps } from "../../types";
+import { IconButtonProps } from '../../types';
+import cx from 'classnames';
 
-const IconButton = ({ icon, ...props }: IconButtonProps) => {
+type Props = {
+  isOpen: boolean;
+} & IconButtonProps;
+
+const IconButton = ({ icon, isOpen, ...rest }: Props) => {
   return (
     <button
-      className="group flex h-full cursor-default items-center px-3.5 hover:bg-zinc-800"
-      {...props}
+      className={cx(
+        'group flex h-full cursor-default items-center border-b-2 px-3.5 transition-[border-color] hover:bg-zinc-800',
+        { 'border-blue-300': isOpen },
+        { 'border-transparent': !isOpen }
+      )}
+      {...rest}
     >
       {icon}
     </button>

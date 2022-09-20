@@ -13,20 +13,17 @@ const OpenedApp = () => {
   const { apps } = useStore((state) => ({ apps: state.apps }));
 
   return (
-    <div className="h-full w-full">
+    <>
       {Object.keys(apps).map((appName) => {
-        const { isOpen } = apps[appName];
         const Component = appComponents[appName];
 
-        if (isOpen) {
-          return (
-            <Window key={appName} name={appName}>
-              {Component}
-            </Window>
-          );
-        }
+        return (
+          <Window key={appName} name={appName}>
+            {Component}
+          </Window>
+        );
       })}
-    </div>
+    </>
   );
 };
 
