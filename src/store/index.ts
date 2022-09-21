@@ -49,17 +49,26 @@ const createAppSlice: StateCreator<
         dimensions: { width, height, originWidth, originHeight },
       } = state.apps[appName];
 
+      let newLeft = originLeft,
+        newTop = originTop,
+        newWidth = originWidth,
+        newHeight = originHeight;
+      if (left !== 0 || top !== 0 || width !== '100%' || height !== '100%') {
+        newLeft = newTop = 0;
+        newWidth = newHeight = '100%';
+      }
+
       state.apps[appName]['location'] = {
         originLeft,
         originTop,
-        left: left === 0 ? originLeft : 0,
-        top: top === 0 ? originTop : 0,
+        left: newLeft,
+        top: newTop,
       };
       state.apps[appName]['dimensions'] = {
         originHeight,
         originWidth,
-        width: originWidth && width === '100%' ? originWidth : '100%',
-        height: originHeight && height === '100%' ? originHeight : '100%',
+        width: newWidth ?? '100%',
+        height: newHeight ?? '100%',
       };
     }),
   open: (app) =>
