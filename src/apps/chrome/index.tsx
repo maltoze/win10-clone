@@ -19,7 +19,7 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
   const { close, doubleClickTitlebar } = useStore();
 
   return (
-    <Tab.Group as="div" className="flex h-full flex-col">
+    <Tab.Group as="div" className="flex h-full flex-col" data-testid="chrome-window">
       <div
         className={`flex bg-zinc-900 ${appName}-drag-handle`}
         onDoubleClick={() => doubleClickTitlebar(appName)}
