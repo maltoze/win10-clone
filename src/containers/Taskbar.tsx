@@ -7,6 +7,7 @@ import ContextMenu from '../components/base/ContextMenu';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
 import { apps as appsConfig } from '../constants';
+import useHydration from '../hooks/hydration';
 
 const Taskbar = () => {
   const { openApp, appsState } = useStore((state) => ({
@@ -58,6 +59,8 @@ const Taskbar = () => {
     }
   }, []);
 
+  const hydrated = useHydration();
+
   return (
     <>
       <div
@@ -66,15 +69,16 @@ const Taskbar = () => {
         data-testid="taskbar"
       >
         <div className="flex">
-          {apps.map((app, index) => (
-            <IconButton
-              isOpen={app.name ? appsState[app.name]?.isOpen ?? false : false}
-              key={index}
-              onClick={app.onClick}
-              icon={app.component}
-              data-testid={`taskbar-btn-${app.name}`}
-            />
-          ))}
+          {hydrated &&
+            apps.map((app, index) => (
+              <IconButton
+                isOpen={app.name ? appsState[app.name]?.isOpen ?? false : false}
+                key={index}
+                onClick={app.onClick}
+                icon={app.component}
+                data-testid={`taskbar-btn-${app.name}`}
+              />
+            ))}
         </div>
         <div>
           <Clock />
