@@ -26,7 +26,7 @@ const Window = ({ name: appName, children: Children }: Props) => {
   }));
   const { minWidth, minHeight } = appsConfig[appName];
 
-  const panelsRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<HTMLDivElement>(null);
 
   return (
     <Transition
@@ -74,7 +74,7 @@ const Window = ({ name: appName, children: Children }: Props) => {
           leaveTo="opacity-0"
           as={Fragment}
         >
-          <Children ref={panelsRef} />
+          <Children ref={appRef} />
         </Transition.Child>
       </Rnd>
     </Transition>
