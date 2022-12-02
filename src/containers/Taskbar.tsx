@@ -8,6 +8,7 @@ import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
 import { apps as appsConfig } from '../constants';
 import useHydration from '../hooks/hydration';
+import StartMenu from './StartMenu';
 
 const Taskbar = () => {
   const { openApp, appsState } = useStore((state) => ({
@@ -16,11 +17,6 @@ const Taskbar = () => {
   }));
 
   const apps = [
-    {
-      component: (
-        <WinLogo className="block h-5 w-5 fill-white group-hover:fill-blue-500" />
-      ),
-    },
     {
       component: <WinSearch className="block h-6 w-6 fill-white" />,
     },
@@ -69,6 +65,7 @@ const Taskbar = () => {
         data-testid="taskbar"
       >
         <div className="flex">
+          <StartMenu />
           {hydrated &&
             apps.map((app, index) => (
               <IconButton
