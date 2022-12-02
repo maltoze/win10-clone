@@ -24,7 +24,7 @@ const StartMenu = () => {
         as={Fragment}
       >
         <Dialog onClose={() => setIsOpen(false)}>
-          <Dialog.Panel className="absolute bottom-11 h-[576px] w-80 bg-zinc-800">
+          <Dialog.Panel className="absolute bottom-11 h-[576px] w-80 bg-zinc-800 shadow-sm">
             <div className="flex">
               <div></div>
               <div className="flex-grow"></div>

@@ -38,7 +38,7 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
         <Tab.Panel className="h-full">
           <div className="flex h-full flex-col bg-zinc-700">
             <AddressBar />
-            <div className="grow border-t border-zinc-500 bg-zinc-800"></div>
+            <div className="grow border-t border-zinc-500 bg-zinc-800 bg-opacity-70"></div>
           </div>
         </Tab.Panel>
       </Tab.Panels>
