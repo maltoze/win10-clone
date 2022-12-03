@@ -23,8 +23,8 @@ const StartMenu = () => {
         leaveTo="translate-y-1"
         as={Fragment}
       >
-        <Dialog onClose={() => setIsOpen(false)}>
-          <Dialog.Panel className="absolute bottom-11 h-[576px] w-80 bg-zinc-800 shadow-sm">
+        <Dialog onClose={() => setIsOpen(false)} className="absolute bottom-11">
+          <Dialog.Panel className="h-[576px] w-80 bg-zinc-800 shadow-sm">
             <div className="flex">
               <div></div>
               <div className="flex-grow"></div>
