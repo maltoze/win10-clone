@@ -42,10 +42,10 @@ const Window = ({ name: appName, children: Children }: Props) => {
       <Rnd
         position={{ x: left || 0, y: top || 0 }}
         size={{ width, height }}
-        onDrag={(e) => {
-          // @ts-ignore
-          const { movementX, movementY } = e;
-          moveWindow(appName, (left || 0) + movementX, (top || 0) + movementY);
+        onDrag={(e, d) => {
+          const x = (left || 0) + d.deltaX;
+          const y = (top || 0) + d.deltaY;
+          moveWindow(appName, x, y);
         }}
         cancel=".drag-cancel"
         onResize={(e, direction, ref, delta, position) => {
