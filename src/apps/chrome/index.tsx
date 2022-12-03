@@ -19,7 +19,11 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
   const { close, doubleClickTitlebar } = useStore();
 
   return (
-    <Tab.Group as="div" className="flex h-full flex-col" data-testid="chrome-window">
+    <Tab.Group
+      as="div"
+      className="flex h-full flex-col"
+      data-testid="chrome-window"
+    >
       <div
         className={`flex bg-zinc-900 ${appName}-drag-handle`}
         onDoubleClick={() => doubleClickTitlebar(appName)}
@@ -29,8 +33,8 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
         </Tab.List>
         <div>
           <WindowCloseButton
+            onTouchEnd={() => close(appName)}
             onClick={() => close(appName)}
-            onMouseDown={(event) => event.preventDefault()}
           />
         </div>
       </div>
