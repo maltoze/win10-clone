@@ -27,3 +27,9 @@ export type AppState = {
   };
   dimensions: Dimensions;
 };
+
+export type MenuItem = {
+  label: string;
+  disabled?: boolean;
+  submenus?: MenuItem[];
+};

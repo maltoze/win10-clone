@@ -1,12 +1,13 @@
-import { useCallback, useState } from 'react';
 import useHydration from '../../hooks/hydration';
-import ContextMenu from '../../components/base/ContextMenu';
+import * as ContextMenu from '@radix-ui/react-context-menu';
 import OpenedApp from './OpenedApp';
+import { MenuItem } from '../../types';
+import ContextMenuContent from '../../components/base/ContextMenuContent';
 
 const Desktop = () => {
   const hydrated = useHydration();
 
-  const menuItems = [
+  const menuItems: MenuItem[][] = [
     [
       {
         label: 'View',
@@ -36,20 +37,16 @@ const Desktop = () => {
     [{ label: 'Display settings' }, { label: 'Personalize', disabled: true }],
   ];
 
-  const [trigger, setTrigger] = useState<HTMLElement | null>(null);
-  const containerRef = useCallback((node: HTMLDivElement) => {
-    if (node !== null) {
-      setTrigger(node);
-    }
-  }, []);
-
   return (
-    <>
-      <div ref={containerRef} className="flex-grow" data-testid="desktop">
-        {hydrated && <OpenedApp />}
-      </div>
-      <ContextMenu menuItems={menuItems} trigger={trigger} />
-    </>
+    <div className="flex-grow" data-testid="desktop">
+      <ContextMenu.Root modal={false}>
+        <ContextMenu.Trigger asChild={true}>
+          <div className="absolute inset-0"></div>
+        </ContextMenu.Trigger>
+        <ContextMenuContent menuItems={menuItems} compact={true} />
+      </ContextMenu.Root>
+      {hydrated && <OpenedApp />}
+    </div>
   );
 };
 

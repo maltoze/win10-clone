@@ -14,17 +14,18 @@
 
 @layer components {
   .menu-item {
-    @apply cursor-default py-2.5 pl-8 pr-24 text-left outline-0 hover:bg-zinc-700 focus:bg-zinc-700 disabled:text-zinc-400 disabled:hover:bg-zinc-800;
+    @apply w-64 cursor-default py-2.5 pl-8 text-left outline-0 hover:bg-zinc-700 focus:bg-zinc-700 disabled:text-zinc-400 disabled:hover:bg-zinc-800;
 
-    &-compact {
-      @apply menu-item py-1.5 pl-6 pr-20;
-    }
-
-    &-open {
-      @apply bg-zinc-700;
+    &[data-disabled] {
+      @apply text-zinc-400 hover:bg-zinc-800;
     }
   }
+
   .menu {
-    @apply flex flex-col border border-zinc-400 bg-zinc-800 py-2 px-0.5 text-xs text-zinc-100 outline-none;
+    @apply z-50 flex flex-col border border-zinc-400 bg-zinc-800 py-2 px-0.5 text-xs text-zinc-100 outline-none;
+  }
+
+  .menu-compact .menu-item {
+    @apply w-48 py-1.5 pl-6;
   }
 }

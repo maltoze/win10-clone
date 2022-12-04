@@ -10,6 +10,7 @@ const StartMenu = () => {
       <button
         className="group flex h-full cursor-default items-center px-3.5 outline-none hover:bg-zinc-800"
         onMouseUp={() => setIsOpen(!isOpen)}
+        onContextMenu={(e) => e.preventDefault()}
       >
         <WinLogo className="block h-5 w-5 fill-white group-hover:fill-blue-500" />
       </button>

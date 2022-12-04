@@ -1,14 +1,13 @@
-import WinLogo from '../components/icons/WinLogo';
+import * as ContextMenu from '@radix-ui/react-context-menu';
 import WinSearch from '../components/icons/WinSearch';
 import Clock from '../components/taskbar/Clock';
 import ChromeIcon from '../components/icons/ChromeIcon';
-import { useCallback, useState } from 'react';
-import ContextMenu from '../components/base/ContextMenu';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
 import { apps as appsConfig } from '../constants';
 import useHydration from '../hooks/hydration';
 import StartMenu from './StartMenu';
+import ContextMenuContent from '../components/base/ContextMenuContent';
 
 const Taskbar = () => {
   const { openApp, appsState } = useStore((state) => ({
@@ -48,41 +47,40 @@ const Taskbar = () => {
     [{ label: 'Lock all taskbars' }, { label: 'Taskbar settings' }],
   ];
 
-  const [trigger, setTrigger] = useState<HTMLElement | null>(null);
-  const tbRef = useCallback((node: HTMLDivElement) => {
-    if (node !== null) {
-      setTrigger(node);
-    }
-  }, []);
-
   const hydrated = useHydration();
 
   return (
-    <>
+    <ContextMenu.Root modal={false}>
+      <ContextMenu.Trigger asChild={true}>
       <div
         className="z-40 flex h-11 w-full justify-between border-b border-transparent bg-zinc-900 pr-2.5"
-        ref={tbRef}
         data-testid="taskbar"
       >
         <div className="flex">
           <StartMenu />
           {hydrated &&
             apps.map((app, index) => (
+                <ContextMenu.Root key={index} modal={false}>
+                  <ContextMenu.Trigger>
               <IconButton
-                isOpen={app.name ? appsState[app.name]?.isOpen ?? false : false}
-                key={index}
+                      isOpen={
+                        app.name ? appsState[app.name]?.isOpen ?? false : false
+                      }
                 onClick={app.onClick}
                 icon={app.component}
                 data-testid={`taskbar-btn-${app.name}`}
               />
+                  </ContextMenu.Trigger>
+                </ContextMenu.Root>
             ))}
         </div>
         <div>
           <Clock />
         </div>
       </div>
-      <ContextMenu menuItems={menuItems} trigger={trigger} compact={false} />
-    </>
+      </ContextMenu.Trigger>
+      <ContextMenuContent menuItems={menuItems} />
+    </ContextMenu.Root>
   );
 };
 
