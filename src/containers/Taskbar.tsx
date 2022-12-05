@@ -52,32 +52,32 @@ const Taskbar = () => {
   return (
     <ContextMenu.Root modal={false}>
       <ContextMenu.Trigger asChild={true}>
-      <div
-        className="z-40 flex h-11 w-full justify-between border-b border-transparent bg-zinc-900 pr-2.5"
-        data-testid="taskbar"
-      >
-        <div className="flex">
-          <StartMenu />
-          {hydrated &&
-            apps.map((app, index) => (
+        <div
+          className="z-40 flex h-11 w-full justify-between border-b border-transparent bg-zinc-900 pr-2.5"
+          data-testid="taskbar"
+        >
+          <div className="flex">
+            <StartMenu />
+            {hydrated &&
+              apps.map((app, index) => (
                 <ContextMenu.Root key={index} modal={false}>
                   <ContextMenu.Trigger>
-              <IconButton
+                    <IconButton
                       isOpen={
                         app.name ? appsState[app.name]?.isOpen ?? false : false
                       }
-                onClick={app.onClick}
-                icon={app.component}
-                data-testid={`taskbar-btn-${app.name}`}
-              />
+                      onClick={app.onClick}
+                      icon={app.component}
+                      data-testid={`taskbar-btn-${app.name}`}
+                    />
                   </ContextMenu.Trigger>
                 </ContextMenu.Root>
-            ))}
+              ))}
+          </div>
+          <div>
+            <Clock />
+          </div>
         </div>
-        <div>
-          <Clock />
-        </div>
-      </div>
       </ContextMenu.Trigger>
       <ContextMenuContent menuItems={menuItems} />
     </ContextMenu.Root>
