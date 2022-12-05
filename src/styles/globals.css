@@ -28,4 +28,8 @@
   .menu-compact .menu-item {
     @apply w-48 py-1.5 pl-6;
   }
+
+  .start-left-btn {
+    @apply flex cursor-default items-center p-3 hover:bg-zinc-700;
+  }
 }
