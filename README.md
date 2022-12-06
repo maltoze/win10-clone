@@ -1,6 +1,6 @@
 # win10-clone
 
-Clone Windows 10 UI in the browser.
+Clone Win10 UI in browser.
 
 ## Development
 
