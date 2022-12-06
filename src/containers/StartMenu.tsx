@@ -11,10 +11,10 @@ import Image from 'next/future/image';
 import alarmsClockPic from '../assets/icons/alarms-clock.png';
 
 const folders = [
-  { icon: FileIcon },
-  { icon: PictureIcon },
-  { icon: SettingsIcon },
-  { icon: ShutdownIcon },
+  { icon: FileIcon, label: 'Documents' },
+  { icon: PictureIcon, label: 'Pictures' },
+  { icon: SettingsIcon, label: 'Settings' },
+  { icon: ShutdownIcon, label: 'Power' },
 ];
 
 const StartMenu = () => {
@@ -40,43 +40,48 @@ const StartMenu = () => {
         as={Fragment}
       >
         <Dialog onClose={() => setIsOpen(false)} className="absolute bottom-11">
-          <Dialog.Panel className="h-[576px] w-80 bg-zinc-800 pt-1.5 shadow-sm">
-            <div className="flex h-full space-x-4">
-              <div className="flex flex-col justify-between">
-                <div>
-                  <button className="start-left-btn">
+          <Dialog.Panel className="h-[576px] w-80 bg-zinc-800  shadow">
+            <div className="start-leftbar">
+              <div>
+                <button className="start-left-btn">
+                  <span>
                     <MenuIcon className="h-5 w-5 fill-zinc-100" />
-                  </button>
-                </div>
-                <div>
-                  <button className="start-left-btn">
-                    <span className="rounded-full bg-zinc-300 p-1">
-                      <GenderNeutralUserIcon className="h-3 w-3 fill-zinc-600" />
-                    </span>
-                  </button>
-                  {folders.map((folder, idx) => (
-                    <button className="start-left-btn" key={idx}>
-                      <folder.icon className="h-5 w-5 fill-zinc-100" />
-                    </button>
-                  ))}
-                </div>
+                  </span>
+                  <span className="px-4 font-bold">START</span>
+                </button>
               </div>
-              <div className="flex-grow text-xs text-zinc-100">
-                <div>
-                  <button className="w-full pl-3.5 pt-2.5 pb-1.5 text-left hover:bg-zinc-700">
-                    A
+              <div>
+                <button className="start-left-btn">
+                  <span className="rounded-full bg-zinc-300 p-1">
+                    <GenderNeutralUserIcon className="h-3 w-3 fill-zinc-600" />
+                  </span>
+                  <span className="px-4">Guest</span>
+                </button>
+                {folders.map((folder, idx) => (
+                  <button className="start-left-btn" key={idx}>
+                    <span>
+                      <folder.icon className="h-5 w-5 fill-zinc-100" />
+                    </span>
+                    <span className="px-4">{folder.label}</span>
                   </button>
-                  <div>
-                    <button className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700">
-                      <Image
-                        src={alarmsClockPic}
-                        quality={100}
-                        alt="Alarms & Clock"
-                        className="h-8 w-8"
-                      />
-                      <span className="pl-1.5">Alarms & Clock</span>
-                    </button>
-                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="pl-14 text-xs text-zinc-100">
+              <div>
+                <button className="w-full pl-3.5 pt-2.5 pb-1.5 text-left hover:bg-zinc-700">
+                  A
+                </button>
+                <div>
+                  <button className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700">
+                    <Image
+                      src={alarmsClockPic}
+                      quality={100}
+                      alt="Alarms & Clock"
+                      className="h-8 w-8"
+                    />
+                    <span className="pl-1.5">Alarms & Clock</span>
+                  </button>
                 </div>
               </div>
             </div>
