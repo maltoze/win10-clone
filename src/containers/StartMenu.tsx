@@ -67,7 +67,7 @@ const StartMenu = () => {
                 ))}
               </div>
             </div>
-            <div className="pl-14 text-xs text-zinc-100">
+            <div className="pl-14 pt-1.5 text-xs text-zinc-100">
               <div>
                 <button className="w-full pl-3.5 pt-2.5 pb-1.5 text-left hover:bg-zinc-700">
                   A

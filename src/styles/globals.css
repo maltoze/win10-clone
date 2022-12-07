@@ -30,14 +30,14 @@
   }
 
   .start-leftbar {
-    @apply pointer-events-none absolute flex h-full w-11 flex-col justify-between overflow-hidden pt-1.5 text-zinc-200 transition-[width,background-color] delay-[25ms] ;
+    @apply pointer-events-none absolute flex h-full w-11 flex-col justify-between overflow-hidden pt-1.5 text-zinc-200 transition duration-75;
   }
 
   .start-leftbar:hover {
-    @apply pointer-events-auto w-64 bg-zinc-700 shadow-lg transition-[width,background-color] delay-500 ease-linear;
+    @apply pointer-events-auto w-64 bg-zinc-750 shadow-2xl transition-[width,background-color,box-shadow] delay-500 ease-linear;
   }
 
   .start-left-btn {
-    @apply pointer-events-auto flex w-full cursor-default items-center p-2.5 hover:bg-zinc-600;
+    @apply pointer-events-auto flex w-full cursor-default items-center p-2.5 hover:bg-zinc-700;
   }
 }
