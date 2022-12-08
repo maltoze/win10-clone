@@ -1,28 +1,20 @@
 import React from 'react';
-import Chrome from '../../apps/chrome';
 import Window from '../../components/window/Window';
 import { useStore } from '../../store';
-
-const appComponents: {
-  [key: string]: React.FC;
-} = {
-  chrome: Chrome,
-};
+import { apps as appsConfig } from '../../apps';
 
 const OpenedApp = () => {
   const { apps } = useStore((state) => ({ apps: state.apps }));
 
   return (
     <>
-      {Object.keys(apps).map((appName) => {
-        const Component = appComponents[appName];
-
-        return (
+      {Object.keys(apps)
+        .filter((appName) => apps[appName].isOpen)
+        .map((appName) => (
           <Window key={appName} name={appName}>
-            {Component}
+            {appsConfig[appName].component}
           </Window>
-        );
-      })}
+        ))}
     </>
   );
 };

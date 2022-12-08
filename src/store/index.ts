@@ -1,7 +1,7 @@
 import create, { StateCreator } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-import { apps } from '../constants';
+import { apps } from '../apps';
 import { AppState, Dimensions } from '../types';
 
 type AppSlice = {

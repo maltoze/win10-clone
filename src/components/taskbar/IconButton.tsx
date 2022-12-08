@@ -1,11 +1,10 @@
-import { IconButtonProps } from '../../types';
 import cx from 'classnames';
 
 type Props = {
   isOpen: boolean;
-} & IconButtonProps;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const IconButton = ({ icon, isOpen, ...rest }: Props) => {
+const IconButton = ({ isOpen, children, ...rest }: Props) => {
   return (
     <button
       className={cx(
@@ -15,7 +14,7 @@ const IconButton = ({ icon, isOpen, ...rest }: Props) => {
       )}
       {...rest}
     >
-      {icon}
+      {children}
     </button>
   );
 };

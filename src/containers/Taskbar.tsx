@@ -4,15 +4,15 @@ import Clock from '../components/taskbar/Clock';
 import ChromeIcon from '../components/icons/ChromeIcon';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
-import { apps as appsConfig } from '../constants';
+import { apps as appsConfig } from '../apps';
 import useHydration from '../hooks/hydration';
 import StartMenu from './StartMenu';
 import ContextMenuContent from '../components/base/ContextMenuContent';
 
 const Taskbar = () => {
-  const { openApp, appsState } = useStore((state) => ({
+  const { openApp, appStore } = useStore((state) => ({
     openApp: state.open,
-    appsState: state.apps,
+    appStore: state.apps,
   }));
 
   const apps = [
@@ -64,12 +64,13 @@ const Taskbar = () => {
                   <ContextMenu.Trigger>
                     <IconButton
                       isOpen={
-                        app.name ? appsState[app.name]?.isOpen ?? false : false
+                        app.name ? appStore[app.name]?.isOpen ?? false : false
                       }
                       onClick={app.onClick}
-                      icon={app.component}
                       data-testid={`taskbar-btn-${app.name}`}
-                    />
+                    >
+                      {app.component}
+                    </IconButton>
                   </ContextMenu.Trigger>
                 </ContextMenu.Root>
               ))}

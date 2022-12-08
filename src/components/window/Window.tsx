@@ -2,15 +2,14 @@ import React, { Fragment, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
-import { apps as appsConfig } from '../../constants';
+import { apps as appsConfig } from '../../apps';
 import { Transition } from '@headlessui/react';
 
 type Props = {
   name: string;
-  children: React.FC<any>;
 } & AppWindowProps;
 
-const Window = ({ name: appName, children: Children }: Props) => {
+const Window = ({ name: appName, children }: Props) => {
   const {
     app: {
       isOpen,
@@ -26,25 +25,29 @@ const Window = ({ name: appName, children: Children }: Props) => {
   }));
   const { minWidth, minHeight } = appsConfig[appName];
 
-  const appRef = useRef<HTMLDivElement>(null);
-
   return (
     <Transition
       show={isOpen}
-      className="h-full w-full"
       enter="transition-opacity duration-75"
       enterFrom="opacity-0"
       enterTo="opacity-100"
       leave="transition-opacity duration-75"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
+      as={Fragment}
     >
       <Rnd
+        tabIndex="0"
+        className="focus:z-30"
         position={{ x: left || 0, y: top || 0 }}
         size={{ width, height }}
         onDrag={(e, d) => {
-          const x = (left || 0) + d.deltaX;
-          const y = (top || 0) + d.deltaY;
+          const { movementX, movementY } = e;
+          console.log(movementX, movementY, d.deltaX, d.deltaY);
+          // const x = (left || 0) + d.deltaX;
+          // const y = (top || 0) + d.deltaY;
+          const x = (left || 0) + movementX;
+          const y = (top || 0) + movementY;
           moveWindow(appName, x, y);
         }}
         cancel=".drag-cancel"
@@ -65,17 +68,7 @@ const Window = ({ name: appName, children: Children }: Props) => {
           right: { cursor: 'ew-resize' },
         }}
       >
-        <Transition.Child
-          enter="transition-opacity duration-75"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity ease-linear duration-75"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          as={Fragment}
-        >
-          <Children ref={appRef} />
-        </Transition.Child>
+        {children}
       </Rnd>
     </Transition>
   );

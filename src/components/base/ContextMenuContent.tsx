@@ -13,7 +13,9 @@ export default function ContextMenuContent({
 }: Props) {
   return (
     <ContextMenu.Portal>
-      <ContextMenu.Content className={cx('menu', { 'menu-compact': compact })}>
+      <ContextMenu.Content
+        className={cx('menu', { 'menu-compact': compact })}
+      >
         {menuItems.map((group, gIdx) => [
           ...group.map((item, idx) =>
             item.submenus ? (
