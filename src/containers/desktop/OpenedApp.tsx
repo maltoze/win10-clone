@@ -1,7 +1,7 @@
 import React from 'react';
 import Window from '../../components/window/Window';
 import { useStore } from '../../store';
-import { apps as appsConfig } from '../../apps';
+import { config as appsConfig } from '../../apps';
 
 const OpenedApp = () => {
   const { apps } = useStore((state) => ({ apps: state.apps }));
@@ -9,10 +9,21 @@ const OpenedApp = () => {
   return (
     <>
       {Object.keys(apps)
-        .filter((appName) => apps[appName].isOpen)
-        .map((appName) => (
-          <Window key={appName} name={appName}>
-            {appsConfig[appName].component}
+        .filter((name) => apps[name].isOpen)
+        .sort((a, b) => {
+          const aLastFocusTime = apps[a].lastFocusTimestamp ?? 0;
+          const bLastFocusTime = apps[b].lastFocusTimestamp ?? 0;
+          if (aLastFocusTime > bLastFocusTime) {
+            return 1;
+          }
+          if (aLastFocusTime < bLastFocusTime) {
+            return -1;
+          }
+          return 0;
+        })
+        .map((name) => (
+          <Window key={name} name={name}>
+            {appsConfig[name].component}
           </Window>
         ))}
     </>

@@ -1,7 +1,7 @@
 import create, { StateCreator } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-import { apps } from '../apps';
+import { config } from '../apps';
 import { AppState, Dimensions } from '../types';
 
 type AppSlice = {
@@ -13,6 +13,7 @@ type AppSlice = {
   moveWindow: (appName: string, left: number, top: number) => void;
   doubleClickTitlebar: (appName: string) => void;
   setDimensions: (appName: string, dimensions: Dimensions) => void;
+  handleOnFocus: (appName: string) => void;
 };
 
 const createAppSlice: StateCreator<
@@ -21,6 +22,10 @@ const createAppSlice: StateCreator<
   []
 > = (set) => ({
   apps: {},
+  handleOnFocus: (appName) =>
+    set((state) => {
+      state.apps[appName].lastFocusTimestamp = new Date().getTime();
+    }),
   setDimensions: (appName, { width, height }) =>
     set((state) => {
       state.apps[appName].dimensions = {
@@ -75,7 +80,7 @@ const createAppSlice: StateCreator<
     set((state) => {
       if (!state.apps[app]) {
         state.apps[app] = {
-          ...apps[app].defaultState,
+          ...config[app].defaultState,
           isOpen: true,
         };
       } else {

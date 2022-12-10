@@ -4,7 +4,7 @@ import Clock from '../components/taskbar/Clock';
 import ChromeIcon from '../components/icons/ChromeIcon';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
-import { apps as appsConfig } from '../apps';
+import { config as appsConfig } from '../apps';
 import useHydration from '../hooks/hydration';
 import StartMenu from './StartMenu';
 import ContextMenuContent from '../components/base/ContextMenuContent';

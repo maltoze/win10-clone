@@ -1,8 +1,8 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
-import { apps as appsConfig } from '../../apps';
+import { config as appsConfig } from '../../apps';
 import { Transition } from '@headlessui/react';
 
 type Props = {
@@ -18,10 +18,12 @@ const Window = ({ name: appName, children }: Props) => {
     },
     moveWindow,
     setDimensions,
+    handleOnFocus,
   } = useStore((state) => ({
     app: state.apps[appName],
     moveWindow: state.moveWindow,
     setDimensions: state.setDimensions,
+    handleOnFocus: () => state.handleOnFocus(appName),
   }));
   const { minWidth, minHeight } = appsConfig[appName];
 
@@ -37,18 +39,11 @@ const Window = ({ name: appName, children }: Props) => {
       as={Fragment}
     >
       <Rnd
-        tabIndex="0"
-        className="focus:z-30"
         position={{ x: left || 0, y: top || 0 }}
         size={{ width, height }}
+        onDragStart={handleOnFocus}
         onDrag={(e, d) => {
-          const { movementX, movementY } = e;
-          console.log(movementX, movementY, d.deltaX, d.deltaY);
-          // const x = (left || 0) + d.deltaX;
-          // const y = (top || 0) + d.deltaY;
-          const x = (left || 0) + movementX;
-          const y = (top || 0) + movementY;
-          moveWindow(appName, x, y);
+          moveWindow(appName, d.x, d.y);
         }}
         cancel=".drag-cancel"
         onResize={(e, direction, ref, delta, position) => {
@@ -68,7 +63,9 @@ const Window = ({ name: appName, children }: Props) => {
           right: { cursor: 'ew-resize' },
         }}
       >
-        {children}
+        <div className="h-full w-full" onClick={handleOnFocus}>
+          {children}
+        </div>
       </Rnd>
     </Transition>
   );

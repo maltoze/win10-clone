@@ -22,6 +22,7 @@ export type AppState = {
     originLeft?: number;
   };
   dimensions: Dimensions;
+  lastFocusTimestamp?: number;
 };
 
 export type MenuItem = {

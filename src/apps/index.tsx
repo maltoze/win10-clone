@@ -10,7 +10,7 @@ type App = {
   component: React.ReactNode;
 };
 
-export const apps: { [key: string]: App } = {
+export const config: { [key: string]: App } = {
   chrome: {
     name: 'chrome',
     defaultState: {
