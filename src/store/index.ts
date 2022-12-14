@@ -86,6 +86,7 @@ const createAppSlice: StateCreator<
       } else {
         state.apps[app].isOpen = true;
       }
+      state.apps[app].lastFocusTimestamp = new Date().getTime();
     }),
   close: (app) =>
     set((state) => {
