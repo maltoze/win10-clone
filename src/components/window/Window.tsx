@@ -46,6 +46,7 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
           moveWindow(appName, d.x, d.y);
         }}
         cancel=".drag-cancel"
+        onResizeStart={handleOnFocus}
         onResize={(e, direction, ref, delta, position) => {
           setDimensions(appName, {
             width: ref.style.width,
