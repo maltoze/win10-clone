@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, PropsWithChildren } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
@@ -9,7 +9,7 @@ type Props = {
   name: string;
 } & AppWindowProps;
 
-const Window = ({ name: appName, children }: Props) => {
+const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
   const {
     app: {
       isOpen,

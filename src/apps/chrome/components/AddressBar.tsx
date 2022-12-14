@@ -8,15 +8,15 @@ const AddressBar = () => {
   return (
     <div className="flex h-9 space-x-2 py-1 px-2">
       <div className="flex space-x-1">
-        <IconButton
-          icon={<ArrowLeftIcon className="h-5 w-5 text-zinc-500" />}
-          disabled
-        />
-        <IconButton
-          icon={<ArrowRightIcon className="h-5 w-5 text-zinc-500" />}
-          disabled
-        />
-        <IconButton icon={<RefreshIcon className="h-5 w-5 text-zinc-200" />} />
+        <IconButton disabled>
+          <ArrowLeftIcon className="h-5 w-5 text-zinc-500" />
+        </IconButton>
+        <IconButton disabled>
+          <ArrowRightIcon className="h-5 w-5 text-zinc-500" />
+        </IconButton>
+        <IconButton>
+          <RefreshIcon className="h-5 w-5 text-zinc-200" />
+        </IconButton>
       </div>
       <div className="flex h-full grow">
         <input
@@ -27,9 +27,9 @@ const AddressBar = () => {
         />
       </div>
       <div>
-        <IconButton
-          icon={<DotsVerticalIcon className="h-5 w-5 text-zinc-200" />}
-        />
+        <IconButton>
+          <DotsVerticalIcon className="h-5 w-5 text-zinc-200" />
+        </IconButton>
       </div>
     </div>
   );

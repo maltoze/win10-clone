@@ -1,10 +1,6 @@
-export type ChildrenProps = {
-  children: React.ReactNode;
-};
-
 export type AppWindowProps = {
   preview?: boolean;
-} & ChildrenProps;
+};
 
 export type Dimensions = {
   width: number | string;
