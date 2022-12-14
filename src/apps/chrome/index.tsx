@@ -1,21 +1,16 @@
 import { Tab } from '@headlessui/react';
-import { forwardRef } from 'react';
 import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
 import AddressBar from './components/AddressBar';
 import ChromeTab from './components/ChromeTab';
-import { apps } from '../../constants';
 
-export const appName = apps.chrome.name;
+const appName = 'chrome';
 
 type Props = {
   preview?: boolean;
 };
 
-const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
-  {},
-  ref
-) {
+const Chrome = () => {
   const { close, doubleClickTitlebar } = useStore();
 
   return (
@@ -38,7 +33,7 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
           />
         </div>
       </div>
-      <Tab.Panels className="grow" ref={ref}>
+      <Tab.Panels className="grow">
         <Tab.Panel className="h-full">
           <div className="flex h-full flex-col bg-zinc-700">
             <AddressBar />
@@ -48,6 +43,6 @@ const Chrome = forwardRef<HTMLDivElement, Props>(function ChromePanelWithRef(
       </Tab.Panels>
     </Tab.Group>
   );
-});
+};
 
 export default Chrome;

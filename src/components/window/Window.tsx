@@ -1,16 +1,15 @@
-import React, { Fragment, useRef } from 'react';
+import React, { Fragment, PropsWithChildren } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
-import { apps as appsConfig } from '../../constants';
+import { config as appsConfig } from '../../apps';
 import { Transition } from '@headlessui/react';
 
 type Props = {
   name: string;
-  children: React.FC<any>;
 } & AppWindowProps;
 
-const Window = ({ name: appName, children: Children }: Props) => {
+const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
   const {
     app: {
       isOpen,
@@ -19,39 +18,39 @@ const Window = ({ name: appName, children: Children }: Props) => {
     },
     moveWindow,
     setDimensions,
+    handleOnFocus,
   } = useStore((state) => ({
     app: state.apps[appName],
     moveWindow: state.moveWindow,
     setDimensions: state.setDimensions,
+    handleOnFocus: () => state.handleOnFocus(appName),
   }));
   const { minWidth, minHeight } = appsConfig[appName];
-
-  const appRef = useRef<HTMLDivElement>(null);
 
   return (
     <Transition
       show={isOpen}
-      className="h-full w-full"
       enter="transition-opacity duration-75"
       enterFrom="opacity-0"
       enterTo="opacity-100"
       leave="transition-opacity duration-75"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
+      as={Fragment}
     >
       <Rnd
         position={{ x: left || 0, y: top || 0 }}
         size={{ width, height }}
+        onDragStart={handleOnFocus}
         onDrag={(e, d) => {
-          const x = (left || 0) + d.deltaX;
-          const y = (top || 0) + d.deltaY;
-          moveWindow(appName, x, y);
+          moveWindow(appName, d.x, d.y);
         }}
         cancel=".drag-cancel"
+        onResizeStart={handleOnFocus}
         onResize={(e, direction, ref, delta, position) => {
           setDimensions(appName, {
-            width: ref.style.width,
-            height: ref.style.height,
+            width: ref.offsetWidth,
+            height: ref.offsetHeight,
           });
           moveWindow(appName, position.x, position.y);
         }}
@@ -65,17 +64,9 @@ const Window = ({ name: appName, children: Children }: Props) => {
           right: { cursor: 'ew-resize' },
         }}
       >
-        <Transition.Child
-          enter="transition-opacity duration-75"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity ease-linear duration-75"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-          as={Fragment}
-        >
-          <Children ref={appRef} />
-        </Transition.Child>
+        <div className="h-full w-full" onClick={handleOnFocus}>
+          {children}
+        </div>
       </Rnd>
     </Transition>
   );

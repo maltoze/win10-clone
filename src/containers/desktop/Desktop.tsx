@@ -38,15 +38,14 @@ const Desktop = () => {
   ];
 
   return (
-    <div className="flex-grow" data-testid="desktop">
-      <ContextMenu.Root modal={false}>
-        <ContextMenu.Trigger asChild={true}>
-          <div className="absolute inset-0"></div>
-        </ContextMenu.Trigger>
-        <ContextMenuContent menuItems={menuItems} compact={true} />
-      </ContextMenu.Root>
-      {hydrated && <OpenedApp />}
-    </div>
+    <ContextMenu.Root modal={false}>
+      <ContextMenu.Trigger asChild={true}>
+        <div className="flex-grow" data-testid="desktop">
+          {hydrated && <OpenedApp />}
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenuContent menuItems={menuItems} compact={true} />
+    </ContextMenu.Root>
   );
 };
 

@@ -9,6 +9,7 @@ import FileIcon from '../components/icons/FileIcon';
 import GenderNeutralUserIcon from '../components/icons/GenderNeutralUserIcon';
 import Image from 'next/future/image';
 import alarmsClockPic from '../assets/icons/alarms-clock.png';
+import { useStore } from '../store';
 
 const folders = [
   { icon: FileIcon, label: 'Documents' },
@@ -19,6 +20,14 @@ const folders = [
 
 const StartMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { openApp } = useStore((state) => ({
+    openApp: state.open,
+  }));
+
+  const handleOpenApp = (name: string) => {
+    openApp(name);
+    setIsOpen(false);
+  };
 
   return (
     <>
@@ -39,8 +48,12 @@ const StartMenu = () => {
         leaveTo="translate-y-1"
         as={Fragment}
       >
-        <Dialog onClose={() => setIsOpen(false)} className="absolute bottom-11">
-          <Dialog.Panel className="h-[576px] w-80 bg-zinc-800  shadow">
+        <Dialog
+          onClose={() => setIsOpen(false)}
+          className="absolute bottom-11"
+          onContextMenu={(e: React.MouseEvent) => e.preventDefault()}
+        >
+          <Dialog.Panel className="h-[576px] w-80 bg-zinc-800 shadow">
             <div className="start-leftbar">
               <div>
                 <button className="start-left-btn">
@@ -73,7 +86,10 @@ const StartMenu = () => {
                   A
                 </button>
                 <div>
-                  <button className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700">
+                  <button
+                    className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
+                    onClick={() => handleOpenApp('alarmsClock')}
+                  >
                     <Image
                       src={alarmsClockPic}
                       quality={100}

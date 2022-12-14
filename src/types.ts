@@ -1,11 +1,3 @@
-export type IconButtonProps = {
-  icon: JSX.Element;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-export type ChildrenProps = {
-  children: React.ReactNode;
-};
-
 export type AppWindowProps = {
   preview?: boolean;
 };
@@ -26,6 +18,7 @@ export type AppState = {
     originLeft?: number;
   };
   dimensions: Dimensions;
+  lastFocusTimestamp?: number;
 };
 
 export type MenuItem = {

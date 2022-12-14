@@ -1,22 +1,26 @@
-import { IconButtonProps } from '../../types';
 import cx from 'classnames';
 
 type Props = {
   isOpen: boolean;
-} & IconButtonProps;
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const IconButton = ({ icon, isOpen, ...rest }: Props) => {
+const IconButton = ({ isOpen, children, ...rest }: Props) => {
   return (
-    <button
-      className={cx(
-        'group flex h-full cursor-default items-center border-b-2 px-3.5 transition-[border-color] hover:bg-zinc-800',
-        { 'border-blue-300': isOpen },
-        { 'border-transparent': !isOpen }
-      )}
+    <div
+      className="group flex h-full w-12 flex-col items-center hover:bg-zinc-800"
       {...rest}
     >
-      {icon}
-    </button>
+      <button className={cx('flex grow cursor-default items-center')}>
+        {children}
+      </button>
+      <div
+        className={cx(
+          'w-10/12 border-b-2 transition-[width,border-color] group-hover:w-full',
+          { 'border-blue-300': isOpen },
+          { 'border-transparent': !isOpen }
+        )}
+      ></div>
+    </div>
   );
 };
 
