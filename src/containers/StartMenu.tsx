@@ -24,6 +24,11 @@ const StartMenu = () => {
     openApp: state.open,
   }));
 
+  const handleOpenApp = (name: string) => {
+    openApp(name);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <button
@@ -83,7 +88,7 @@ const StartMenu = () => {
                 <div>
                   <button
                     className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
-                    onClick={() => openApp('alarmsClock')}
+                    onClick={() => handleOpenApp('alarmsClock')}
                   >
                     <Image
                       src={alarmsClockPic}
