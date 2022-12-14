@@ -26,7 +26,6 @@ specifiers:
   react: 18.2.0
   react-dnd-test-backend: ^16.0.1
   react-dom: 18.2.0
-  react-merge-refs: ^2.0.1
   react-rnd: ^10.3.7
   tailwindcss: ^3.1.6
   typescript: 4.7.4
@@ -40,7 +39,6 @@ dependencies:
   next: 12.3.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-merge-refs: 2.0.1
   react-rnd: 10.3.7_biqbaboplfbrettd7655fr4n2y
   zustand: 4.0.0-rc.4_immer@9.0.15+react@18.2.0
 
@@ -4305,10 +4303,6 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
-
-  /react-merge-refs/2.0.1:
-    resolution: {integrity: sha512-pywF6oouJWuqL26xV3OruRSIqai31R9SdJX/I3gP2q8jLxUnA1IwXcLW8werUHLZOrp4N7YOeQNZrh/BKrHI4A==}
-    dev: false
 
   /react-remove-scroll-bar/2.3.4_3hx2ussxxho4jajbwrd6gq34qe:
     resolution: {integrity: sha512-63C4YQBUt0m6ALadE9XV56hV8BgJWDmmTPY758iIJjfQKt2nYwoUrPk0LXRXcB/yIj82T1/Ixfdpdk68LwIB0A==}

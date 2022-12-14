@@ -17,7 +17,4 @@ const customJestConfig = {
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 module.exports = async () => ({
   ...(await createJestConfig(customJestConfig)()),
-  transformIgnorePatterns: [
-    '/node_modules/.pnpm/(?!react-dnd|core-dnd|@react-dnd|dnd-core|react-dnd-html5-backend|react-merge-refs)',
-  ],
 });
