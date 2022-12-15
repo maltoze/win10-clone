@@ -30,23 +30,28 @@ const menuItems = [
   [{ label: 'Lock all taskbars' }, { label: 'Taskbar settings' }],
 ];
 
-const Taskbar = () => {
-  const { openApp, apps } = useStore((state) => ({
-    openApp: state.open,
-    apps: state.apps,
-  }));
+const taskbarApps = [
+  {
+    component: <WinSearch className="block h-6 w-6 fill-white" />,
+  },
+  {
+    name: appsConfig.chrome.name,
+  },
+];
 
-  const taskbarApps = [
-    {
-      component: <WinSearch className="block h-6 w-6 fill-white" />,
-    },
-    {
-      name: appsConfig.chrome.name,
-      onClick: () => openApp(appsConfig.chrome.name),
-    },
-  ];
+const Taskbar = () => {
+  const { open, handleOnFocus, apps } = useStore();
 
   const hydrated = useHydration();
+
+  const handleOnClick = (name: string) => {
+    const app = apps[name];
+    if (app?.isOpen) {
+      handleOnFocus(name);
+    } else {
+      open(name);
+    }
+  };
 
   return (
     <ContextMenu.Root modal={false}>
@@ -62,7 +67,7 @@ const Taskbar = () => {
                 <IconButton
                   key={index}
                   isOpen={app.name ? apps[app.name]?.isOpen ?? false : false}
-                  onClick={app.onClick}
+                  onClick={() => app.name && handleOnClick(app.name)}
                   data-testid={`taskbar-btn-${app.name}`}
                 >
                   {app.name ? appsConfig[app.name].taskbarIcon : app.component}
@@ -75,7 +80,11 @@ const Taskbar = () => {
                   (name) => !taskbarApps.map((item) => item.name).includes(name)
                 )
                 .map((name, index) => (
-                  <IconButton key={index} isOpen={apps[name]?.isOpen ?? false}>
+                  <IconButton
+                    key={index}
+                    isOpen={apps[name]?.isOpen ?? false}
+                    onClick={() => handleOnClick(name)}
+                  >
                     {appsConfig[name].taskbarIcon}
                   </IconButton>
                 ))}
