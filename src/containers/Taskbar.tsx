@@ -1,13 +1,13 @@
 import * as ContextMenu from '@radix-ui/react-context-menu';
 import WinSearch from '../components/icons/WinSearch';
 import Clock from '../components/taskbar/Clock';
-import ChromeIcon from '../components/icons/ChromeIcon';
 import { useStore } from '../store';
 import IconButton from '../components/taskbar/IconButton';
 import { config as appsConfig } from '../apps';
 import useHydration from '../hooks/hydration';
 import StartMenu from './StartMenu';
 import ContextMenuContent from '../components/base/ContextMenuContent';
+import { useEffect, useState } from 'react';
 
 const menuItems = [
   [{ label: 'Toolbars', disabled: true }],
@@ -53,6 +53,26 @@ const Taskbar = () => {
     }
   };
 
+  const [focusApp, setFocusApp] = useState('');
+  useEffect(() => {
+    const sortedApps = Object.keys(apps)
+      .filter((name) => apps[name].isOpen)
+      .sort((a, b) => {
+        const aLastFocusTime = apps[a].lastFocusTimestamp ?? 0;
+        const bLastFocusTime = apps[b].lastFocusTimestamp ?? 0;
+        if (aLastFocusTime > bLastFocusTime) {
+          return -1;
+        }
+        if (aLastFocusTime < bLastFocusTime) {
+          return 1;
+        }
+        return 0;
+      });
+    if (sortedApps.length > 0) {
+      setFocusApp(sortedApps[0]);
+    }
+  }, [apps]);
+
   return (
     <ContextMenu.Root modal={false}>
       <ContextMenu.Trigger asChild={true}>
@@ -60,7 +80,7 @@ const Taskbar = () => {
           className="z-40 flex h-11 w-full justify-between border-b border-transparent bg-zinc-900 pr-2.5"
           data-testid="taskbar"
         >
-          <div className="flex">
+          <div className="flex space-x-[1px]">
             <StartMenu />
             {hydrated &&
               taskbarApps.map((app, index) => (
@@ -69,6 +89,7 @@ const Taskbar = () => {
                   isOpen={app.name ? apps[app.name]?.isOpen ?? false : false}
                   onClick={() => app.name && handleOnClick(app.name)}
                   data-testid={`taskbar-btn-${app.name}`}
+                  isFocus={focusApp === app.name}
                 >
                   {app.name ? appsConfig[app.name].taskbarIcon : app.component}
                 </IconButton>
@@ -84,6 +105,7 @@ const Taskbar = () => {
                     key={index}
                     isOpen={apps[name]?.isOpen ?? false}
                     onClick={() => handleOnClick(name)}
+                    isFocus={focusApp === name}
                   >
                     {appsConfig[name].taskbarIcon}
                   </IconButton>
