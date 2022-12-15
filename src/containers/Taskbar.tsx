@@ -53,7 +53,7 @@ const Taskbar = () => {
     }
   };
 
-  const [focusApp, setFocusApp] = useState('');
+  const [focusApp, setFocusApp] = useState<string | null>(null);
   useEffect(() => {
     const sortedApps = Object.keys(apps)
       .filter((name) => apps[name].isOpen)
@@ -70,6 +70,8 @@ const Taskbar = () => {
       });
     if (sortedApps.length > 0) {
       setFocusApp(sortedApps[0]);
+    } else {
+      setFocusApp(null);
     }
   }, [apps]);
 
