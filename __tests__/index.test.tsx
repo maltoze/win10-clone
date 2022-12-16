@@ -54,6 +54,6 @@ describe('Home', () => {
   it('should have bottom border on opened app', () => {
     const chromeBtn = screen.getByTestId('taskbar-btn-chrome');
     fireEvent.click(chromeBtn);
-    expect(chromeBtn).toHaveClass('border-blue-300');
+    expect(chromeBtn).toHaveClass('bg-zinc-800');
   });
 });
