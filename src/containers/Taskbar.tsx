@@ -81,8 +81,8 @@ const Taskbar = () => {
         >
           <div className="flex space-x-[1px]">
             <StartMenu />
-            {hydrated &&
-              taskbarApps.map((app, index) => (
+            {hydrated && [
+              ...taskbarApps.map((app, index) => (
                 <IconButton
                   key={index}
                   isOpen={app.name ? apps[app.name]?.isOpen ?? false : false}
@@ -92,9 +92,9 @@ const Taskbar = () => {
                 >
                   {app.name ? appsConfig[app.name].taskbarIcon : app.component}
                 </IconButton>
-              ))}
-            {hydrated &&
-              Object.keys(apps)
+              )),
+
+              ...Object.keys(apps)
                 .filter((name) => apps[name].isOpen)
                 .filter(
                   (name) => !taskbarApps.map((item) => item.name).includes(name)
@@ -108,7 +108,8 @@ const Taskbar = () => {
                   >
                     {appsConfig[name].taskbarIcon}
                   </IconButton>
-                ))}
+                )),
+            ]}
           </div>
           <div>
             <Clock />
