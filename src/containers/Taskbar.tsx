@@ -7,7 +7,7 @@ import { config as appsConfig } from '../apps';
 import useHydration from '../hooks/hydration';
 import StartMenu from './StartMenu';
 import ContextMenuContent from '../components/base/ContextMenuContent';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 const menuItems = [
   [{ label: 'Toolbars', disabled: true }],
@@ -53,27 +53,24 @@ const Taskbar = () => {
     }
   };
 
-  const [focusApp, setFocusApp] = useState<string | null>(null);
-  useEffect(() => {
-    const sortedApps = Object.keys(apps)
-      .filter((name) => apps[name].isOpen)
-      .sort((a, b) => {
-        const aLastFocusTime = apps[a].lastFocusTimestamp ?? 0;
-        const bLastFocusTime = apps[b].lastFocusTimestamp ?? 0;
-        if (aLastFocusTime > bLastFocusTime) {
-          return -1;
-        }
-        if (aLastFocusTime < bLastFocusTime) {
-          return 1;
-        }
-        return 0;
-      });
-    if (sortedApps.length > 0) {
-      setFocusApp(sortedApps[0]);
-    } else {
-      setFocusApp(null);
-    }
-  }, [apps]);
+  const sortedApps = useMemo(
+    () =>
+      Object.keys(apps)
+        .filter((name) => apps[name].isOpen)
+        .sort((a, b) => {
+          const aLastFocusTime = apps[a].lastFocusTimestamp ?? 0;
+          const bLastFocusTime = apps[b].lastFocusTimestamp ?? 0;
+          if (aLastFocusTime > bLastFocusTime) {
+            return -1;
+          }
+          if (aLastFocusTime < bLastFocusTime) {
+            return 1;
+          }
+          return 0;
+        }),
+    [apps]
+  );
+  const focusApp = sortedApps.length > 0 ? sortedApps[0] : null;
 
   return (
     <ContextMenu.Root modal={false}>
