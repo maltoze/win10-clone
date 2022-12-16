@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@headlessui/react': ^1.7.1
   '@radix-ui/react-context-menu': ^2.0.1
+  '@radix-ui/react-icons': ^1.1.1
   '@testing-library/dom': ^8.16.0
   '@testing-library/jest-dom': ^5.16.4
   '@testing-library/react': ^13.3.0
@@ -34,6 +35,7 @@ specifiers:
 dependencies:
   '@headlessui/react': 1.7.1_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-context-menu': 2.0.1_bb2bxwco6ptpubzwpazr52qf6i
+  '@radix-ui/react-icons': 1.1.1_react@18.2.0
   classnames: 2.3.1
   immer: 9.0.15
   next: 12.3.0_biqbaboplfbrettd7655fr4n2y
@@ -1002,6 +1004,14 @@ packages:
       '@radix-ui/react-use-callback-ref': 1.0.0_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@radix-ui/react-icons/1.1.1_react@18.2.0:
+    resolution: {integrity: sha512-xc3wQC59rsFylVbSusQCrrM+6695ppF730Q6yqzhRdqDcRNWIm2R6ngpzBoSOQMcwnq4p805F+Gr7xo4fmtN1A==}
+    peerDependencies:
+      react: ^16.x || ^17.x || ^18.x
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@radix-ui/react-id/1.0.0_react@18.2.0:
