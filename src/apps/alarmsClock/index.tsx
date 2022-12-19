@@ -1,6 +1,7 @@
 import {
   ClockIcon,
   CountdownTimerIcon,
+  HamburgerMenuIcon,
   HeightIcon,
   LapTimerIcon,
   PlayIcon,
@@ -31,15 +32,18 @@ export default function AlarmsClock() {
   }));
 
   return (
-    <div className="flex h-full cursor-default select-none text-zinc-100">
-      <div className="w-48 bg-zinc-750 shadow">
+    <div className="flex h-full cursor-default text-zinc-100 @container">
+      <div className="w-12 bg-zinc-750 shadow @5xl:w-56">
         <div className="alarmsClock-drag-handle flex h-10 items-center px-3 text-xs">
-          Alarms & Clock
+          <span className="hidden select-none @5xl:inline-block">
+            Alarms & Clock
+          </span>
+          <HamburgerMenuIcon className="inline-block h-5 w-5 @5xl:hidden" />
         </div>
-        <div className="w-56 text-sm">
+        <div className="text-sm">
           {sidebarItems.map((item, idx) => (
             <div
-              key={idx}
+              key={`{sidebar-item-${idx}`}
               className="group flex items-center space-x-3 py-2 pl-1 pr-8 hover:bg-zinc-700"
             >
               {item.icon && (
@@ -48,7 +52,9 @@ export default function AlarmsClock() {
                   <item.icon className="ml-2 h-[18px] w-[18px] text-zinc-200" />
                 </div>
               )}
-              <span>{item.label}</span>
+              <span className="hidden select-none @5xl:inline-block">
+                {item.label}
+              </span>
             </div>
           ))}
         </div>
@@ -65,7 +71,7 @@ export default function AlarmsClock() {
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4 py-2">
           {defaultTimer.map((minute, idx) => (
             <div
-              key={idx}
+              key={`timer-${idx}`}
               className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75"
             >
               <div className="pointer-events-auto rounded-sm bg-zinc-750 py-2 pl-4 pr-2 shadow hover:rounded-none hover:shadow-none">
