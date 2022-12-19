@@ -19,7 +19,7 @@ export default function ContextMenuContent({
         {menuItems.map((group, gIdx) => [
           ...group.map((item, idx) =>
             item.submenus ? (
-              <ContextMenu.Sub key={idx}>
+              <ContextMenu.Sub key={`contextmenu-sub-${idx}`}>
                 <ContextMenu.SubTrigger className="menu-item inline-flex justify-between pr-2">
                   {item.label}
                   <span>{'>'}</span>
@@ -42,7 +42,7 @@ export default function ContextMenuContent({
               </ContextMenu.Sub>
             ) : (
               <ContextMenu.Item
-                key={idx}
+                key={`contextmenu-item-${idx}`}
                 disabled={item.disabled ?? false}
                 className="menu-item"
               >

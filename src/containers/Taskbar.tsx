@@ -84,7 +84,7 @@ const Taskbar = () => {
             {hydrated && [
               ...taskbarApps.map((app, index) => (
                 <IconButton
-                  key={index}
+                  key={`taskbar-app-${index}`}
                   isOpen={app.name ? apps[app.name]?.isOpen ?? false : false}
                   onClick={() => app.name && handleOnClick(app.name)}
                   data-testid={`taskbar-btn-${app.name}`}
@@ -101,7 +101,7 @@ const Taskbar = () => {
                 )
                 .map((name, index) => (
                   <IconButton
-                    key={index}
+                    key={`opened-app-${index}`}
                     isOpen={apps[name]?.isOpen ?? false}
                     onClick={() => handleOnClick(name)}
                     isFocus={focusApp === name}
