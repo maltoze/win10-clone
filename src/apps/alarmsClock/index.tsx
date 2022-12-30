@@ -10,6 +10,7 @@ import {
 } from '@radix-ui/react-icons';
 import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
+import CircleProgress from './components/CircleProgress';
 
 const sidebarItems = [
   { label: 'Timer', icon: LapTimerIcon },
@@ -41,9 +42,9 @@ export default function AlarmsClock() {
           <HamburgerMenuIcon className="inline-block h-5 w-5 @5xl:hidden" />
         </div>
         <div className="text-sm">
-          {sidebarItems.map((item, idx) => (
+          {sidebarItems.map((item) => (
             <div
-              key={`{sidebar-item-${idx}`}
+              key={item.label}
               className="group flex items-center space-x-3 py-2 pl-1 pr-8 hover:bg-zinc-700"
             >
               {item.icon && (
@@ -59,6 +60,7 @@ export default function AlarmsClock() {
           ))}
         </div>
       </div>
+
       <div className="flex grow flex-col bg-zinc-800">
         <div className="alarmsClock-drag-handle flex h-10 justify-end">
           <div>
@@ -68,10 +70,13 @@ export default function AlarmsClock() {
             />
           </div>
         </div>
+
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4 py-2">
+          <CircleProgress />
+
           {defaultTimer.map((minute, idx) => (
             <div
-              key={`timer-${idx}`}
+              key={minute}
               className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75"
             >
               <div className="pointer-events-auto rounded-sm bg-zinc-750 py-2 pl-4 pr-2 shadow hover:rounded-none hover:shadow-none">
