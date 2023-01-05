@@ -1,4 +1,4 @@
-import React, { Fragment, PropsWithChildren } from 'react';
+import React, { Fragment, PropsWithChildren, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
@@ -26,6 +26,23 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
     handleOnFocus: () => state.handleOnFocus(appName),
   }));
   const { minWidth, minHeight } = appsConfig[appName];
+
+  const handleContextMenuEvent = (event: MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const containerEle = containerRef.current;
+    if (!containerEle) {
+      return;
+    }
+    containerEle.addEventListener('contextmenu', handleContextMenuEvent);
+    return () => {
+      containerEle?.removeEventListener('contextmenu', handleContextMenuEvent);
+    };
+  }, [containerRef]);
 
   return (
     <Transition
@@ -64,7 +81,11 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
           right: { cursor: 'ew-resize' },
         }}
       >
-        <div className="h-full w-full" onClick={handleOnFocus}>
+        <div
+          className="h-full w-full"
+          onClick={handleOnFocus}
+          ref={containerRef}
+        >
           {children}
         </div>
       </Rnd>
