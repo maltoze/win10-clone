@@ -117,7 +117,10 @@ export default function AlarmsClock() {
       </div>
 
       <div className="flex grow flex-col bg-zinc-800">
-        <div className="alarmsClock-drag-handle flex h-10 justify-end">
+        <div className="alarmsClock-drag-handle flex h-10 justify-between">
+          <div className="ml-1.5 pt-3 pl-4 text-xs text-zinc-200 ">
+            <span className="inline-block @5xl:hidden">Alarms & Clock</span>
+          </div>
           <div>
             <WindowCloseButton
               onTouchEnd={() => close()}
@@ -126,7 +129,7 @@ export default function AlarmsClock() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 overflow-y-auto px-4 py-2">
+        <div className="flex flex-wrap gap-2 overflow-y-auto px-4">
           {defaultTimerKeys.map((minutes) => {
             const curTimer = timer?.[minutes];
             return (
