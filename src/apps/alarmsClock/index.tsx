@@ -147,7 +147,7 @@ export default function AlarmsClock() {
                       value={
                         curTimer.isRunning
                           ? 100
-                          : Math.round(100 * (curTimer.progress ?? 0))
+                          : 100 * (curTimer.progress ?? 0)
                       }
                       duration={minutes * 60 * (1 - (curTimer.progress ?? 0))}
                     />
