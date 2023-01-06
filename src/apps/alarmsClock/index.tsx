@@ -14,6 +14,7 @@ import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
 import { secondsToTime } from '../../utils';
 import CircleProgress from './components/CircleProgress';
+import Timer from './components/Timer';
 import { TimerState } from './types';
 
 const sidebarItems = [
@@ -43,12 +44,12 @@ export default function AlarmsClock() {
     close: () => state.close('alarmsClock'),
   }));
 
-  const [timer, updateTimer] = useImmer<TimerState[]>(defaultTimer);
+  const [timers, updateTimers] = useImmer<TimerState[]>(defaultTimer);
 
-  const handleOnTimerToggle = (tIdx: number) => {
-    if (timer[tIdx].isRunning) {
-      clearInterval(timer[tIdx].interval);
-      updateTimer((draft) => {
+  const handleOnToggleTimer = (tIdx: number) => {
+    if (timers[tIdx].isRunning) {
+      clearInterval(timers[tIdx].interval);
+      updateTimers((draft) => {
         draft[tIdx].isRunning = false;
         draft[tIdx].elapsedTime +=
           new Date().getTime() - draft[tIdx].lastStartTime;
@@ -56,13 +57,13 @@ export default function AlarmsClock() {
       return;
     }
 
-    updateTimer((draft) => {
+    updateTimers((draft) => {
       draft[tIdx].lastStartTime = new Date().getTime();
     });
 
     const interval = setInterval(
       (function _updateTimer() {
-        updateTimer((draft) => {
+        updateTimers((draft) => {
           let elapsedTime =
             draft[tIdx].elapsedTime +
             (new Date().getTime() - draft[tIdx].lastStartTime);
@@ -130,52 +131,14 @@ export default function AlarmsClock() {
         </div>
 
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4 scrollbar scrollbar-track-zinc-800 scrollbar-thumb-zinc-500 scrollbar-thumb-rounded-full scrollbar-w-[3px]">
-          {timer.map((tmr, tIdx) => {
-            const progress = tmr.elapsedTime / (tmr.totalSeconds * 1000);
-            return (
-              <div
-                key={tIdx}
-                className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75"
-              >
-                <div className="pointer-events-auto rounded-sm bg-zinc-750 py-2 pl-4 pr-2 shadow hover:rounded-none hover:shadow-none">
-                  <div className="flex justify-between">
-                    <div className="select-none text-sm">{tmr.name}</div>
-                    <div className="p-1.5 hover:bg-zinc-700">
-                      <HeightIcon className="h-6 w-6 rotate-45" />
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <CircleProgress
-                      value={tmr.isRunning ? 100 : 100 * progress}
-                      duration={tmr.totalSeconds * 1000 * (1 - progress)}
-                    />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-4xl ">
-                      {secondsToTime(
-                        Math.round(tmr.totalSeconds - tmr.elapsedTime / 1000)
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-center space-x-4 py-2">
-                    <button
-                      className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 hover:bg-blue-400"
-                      onClick={() => handleOnTimerToggle(tIdx)}
-                    >
-                      {tmr?.isRunning ? (
-                        <PauseIcon className="h-6 w-6" />
-                      ) : (
-                        <PlayIcon className="h-6 w-6" />
-                      )}
-                    </button>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-600">
-                      <ResetIcon className="h-6 w-6 text-zinc-400" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {timers.map((timer, tIdx) => (
+            <Timer
+              timer={timer}
+              timerIdx={tIdx}
+              key={`${timer.totalSeconds}-${tIdx}`}
+              onToggleTimer={handleOnToggleTimer}
+            />
+          ))}
         </div>
       </div>
     </div>
