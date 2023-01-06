@@ -14,6 +14,7 @@ import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
 import { secondsToTime } from '../../utils';
 import CircleProgress from './components/CircleProgress';
+import { TimerState } from './types';
 
 const sidebarItems = [
   { label: 'Timer', icon: LapTimerIcon },
@@ -28,67 +29,55 @@ const sidebarItems = [
   },
 ];
 
-type TimerState = {
-  [key: number]: {
-    lastStartTime: number;
-    elapsedTime: number;
-    isRunning: boolean;
-    interval?: ReturnType<typeof setInterval>;
-  };
-};
-
-const defaultTimerKeys = [1, 5, 3, 10];
-const defaultTimer: TimerState = Object.fromEntries(
-  defaultTimerKeys.map((minutes) => [
-    minutes,
-    {
-      isRunning: false,
-      elapsedTime: 0,
-      lastStartTime: 0,
-    },
-  ])
-);
+const defaultTimerMinutes = [1, 5, 3, 10];
+const defaultTimer: TimerState[] = defaultTimerMinutes.map((minute) => ({
+  totalSeconds: minute * 60,
+  isRunning: false,
+  elapsedTime: 0,
+  lastStartTime: 0,
+  name: `${minute} min`,
+}));
 
 export default function AlarmsClock() {
   const { close } = useStore((state) => ({
     close: () => state.close('alarmsClock'),
   }));
 
-  const [timer, updateTimer] = useImmer<TimerState>(defaultTimer);
+  const [timer, updateTimer] = useImmer<TimerState[]>(defaultTimer);
 
-  const handleOnTimerToggle = (minutes: number) => {
-    if (timer[minutes].isRunning) {
-      clearInterval(timer[minutes].interval);
+  const handleOnTimerToggle = (tIdx: number) => {
+    if (timer[tIdx].isRunning) {
+      clearInterval(timer[tIdx].interval);
       updateTimer((draft) => {
-        draft[minutes].isRunning = false;
-        draft[minutes].elapsedTime +=
-          new Date().getTime() - draft[minutes].lastStartTime;
+        draft[tIdx].isRunning = false;
+        draft[tIdx].elapsedTime +=
+          new Date().getTime() - draft[tIdx].lastStartTime;
       });
       return;
     }
 
     updateTimer((draft) => {
-      draft[minutes].lastStartTime = new Date().getTime();
+      draft[tIdx].lastStartTime = new Date().getTime();
     });
 
     const interval = setInterval(
       (function _updateTimer() {
         updateTimer((draft) => {
           let elapsedTime =
-            draft[minutes].elapsedTime +
-            (new Date().getTime() - draft[minutes].lastStartTime);
+            draft[tIdx].elapsedTime +
+            (new Date().getTime() - draft[tIdx].lastStartTime);
           let isRunning = true;
 
-          if (Math.round(elapsedTime / 1000) >= minutes * 60) {
-            clearInterval(draft[minutes].interval ?? interval);
+          if (Math.round(elapsedTime / 1000) >= draft[tIdx].totalSeconds) {
+            clearInterval(draft[tIdx].interval ?? interval);
             isRunning = false;
             elapsedTime = 0;
           }
 
-          draft[minutes].lastStartTime = new Date().getTime();
-          draft[minutes].elapsedTime = elapsedTime;
-          draft[minutes].isRunning = isRunning;
-          draft[minutes].interval = interval;
+          draft[tIdx].lastStartTime = new Date().getTime();
+          draft[tIdx].elapsedTime = elapsedTime;
+          draft[tIdx].isRunning = isRunning;
+          draft[tIdx].interval = interval;
         });
         return _updateTimer;
       })(),
@@ -141,17 +130,16 @@ export default function AlarmsClock() {
         </div>
 
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4 scrollbar scrollbar-track-zinc-800 scrollbar-thumb-zinc-500 scrollbar-thumb-rounded-full scrollbar-w-[3px]">
-          {defaultTimerKeys.map((minutes) => {
-            const curTimer = timer?.[minutes];
-            const progress = curTimer.elapsedTime / (minutes * 60 * 1000);
+          {timer.map((tmr, tIdx) => {
+            const progress = tmr.elapsedTime / (tmr.totalSeconds * 1000);
             return (
               <div
-                key={minutes}
+                key={tIdx}
                 className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75"
               >
                 <div className="pointer-events-auto rounded-sm bg-zinc-750 py-2 pl-4 pr-2 shadow hover:rounded-none hover:shadow-none">
                   <div className="flex justify-between">
-                    <div className="select-none text-sm">{minutes} min</div>
+                    <div className="select-none text-sm">{tmr.name}</div>
                     <div className="p-1.5 hover:bg-zinc-700">
                       <HeightIcon className="h-6 w-6 rotate-45" />
                     </div>
@@ -159,12 +147,12 @@ export default function AlarmsClock() {
 
                   <div className="relative">
                     <CircleProgress
-                      value={curTimer.isRunning ? 100 : 100 * progress}
-                      duration={minutes * 60 * 1000 * (1 - progress)}
+                      value={tmr.isRunning ? 100 : 100 * progress}
+                      duration={tmr.totalSeconds * 1000 * (1 - progress)}
                     />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-4xl ">
                       {secondsToTime(
-                        Math.round(minutes * 60 - curTimer.elapsedTime / 1000)
+                        Math.round(tmr.totalSeconds - tmr.elapsedTime / 1000)
                       )}
                     </div>
                   </div>
@@ -172,9 +160,9 @@ export default function AlarmsClock() {
                   <div className="flex justify-center space-x-4 py-2">
                     <button
                       className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 hover:bg-blue-400"
-                      onClick={() => handleOnTimerToggle(minutes)}
+                      onClick={() => handleOnTimerToggle(tIdx)}
                     >
-                      {curTimer?.isRunning ? (
+                      {tmr?.isRunning ? (
                         <PauseIcon className="h-6 w-6" />
                       ) : (
                         <PlayIcon className="h-6 w-6" />
