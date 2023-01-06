@@ -2,18 +2,12 @@ import {
   ClockIcon,
   CountdownTimerIcon,
   HamburgerMenuIcon,
-  HeightIcon,
   LapTimerIcon,
-  PauseIcon,
-  PlayIcon,
-  ResetIcon,
   TimerIcon,
 } from '@radix-ui/react-icons';
 import { useImmer } from 'use-immer';
 import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
-import { secondsToTime } from '../../utils';
-import CircleProgress from './components/CircleProgress';
 import Timer from './components/Timer';
 import { TimerState } from './types';
 
