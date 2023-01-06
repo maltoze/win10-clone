@@ -30,10 +30,10 @@ const sidebarItems = [
 
 type TimerState = {
   [key: number]: {
-    timeLeft: number;
+    lastStartTime: number;
+    elapsedTime: number;
     isRunning: boolean;
     interval?: ReturnType<typeof setInterval>;
-    progress?: number;
   };
 };
 
@@ -42,8 +42,9 @@ const defaultTimer: TimerState = Object.fromEntries(
   defaultTimerKeys.map((minutes) => [
     minutes,
     {
-      timeLeft: minutes * 60,
       isRunning: false,
+      elapsedTime: 0,
+      lastStartTime: 0,
     },
   ])
 );
@@ -60,24 +61,32 @@ export default function AlarmsClock() {
       clearInterval(timer[minutes].interval);
       updateTimer((draft) => {
         draft[minutes].isRunning = false;
-        draft[minutes].progress = 1 - draft[minutes].timeLeft / (minutes * 60);
+        draft[minutes].elapsedTime +=
+          new Date().getTime() - draft[minutes].lastStartTime;
       });
       return;
     }
 
+    updateTimer((draft) => {
+      draft[minutes].lastStartTime = new Date().getTime();
+    });
+
     const interval = setInterval(
       (function _updateTimer() {
         updateTimer((draft) => {
-          let timeLeft = (draft?.[minutes]?.timeLeft ?? minutes * 60) - 1;
+          let elapsedTime =
+            draft[minutes].elapsedTime +
+            (new Date().getTime() - draft[minutes].lastStartTime);
           let isRunning = true;
-          if (timeLeft === 0) {
+
+          if (Math.round(elapsedTime / 1000) >= minutes * 60) {
             clearInterval(draft[minutes].interval ?? interval);
             isRunning = false;
-            timeLeft = minutes * 60;
-            draft[minutes].progress = 0;
+            elapsedTime = 0;
           }
 
-          draft[minutes].timeLeft = timeLeft;
+          draft[minutes].lastStartTime = new Date().getTime();
+          draft[minutes].elapsedTime = elapsedTime;
           draft[minutes].isRunning = isRunning;
           draft[minutes].interval = interval;
         });
@@ -119,7 +128,7 @@ export default function AlarmsClock() {
       <div className="flex grow flex-col bg-zinc-800">
         <div className="alarmsClock-drag-handle flex h-10 justify-between">
           <div className="ml-1.5 pt-3 pl-4 text-xs text-zinc-200 ">
-            <span className="inline-block @5xl:hidden">Alarms & Clock</span>
+            <span className="inline-block @5xl:hidden select-none">Alarms & Clock</span>
           </div>
           <div>
             <WindowCloseButton
@@ -132,6 +141,7 @@ export default function AlarmsClock() {
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4">
           {defaultTimerKeys.map((minutes) => {
             const curTimer = timer?.[minutes];
+            const progress = curTimer.elapsedTime / (minutes * 60 * 1000);
             return (
               <div
                 key={minutes}
@@ -147,15 +157,13 @@ export default function AlarmsClock() {
 
                   <div className="relative">
                     <CircleProgress
-                      value={
-                        curTimer.isRunning
-                          ? 100
-                          : 100 * (curTimer.progress ?? 0)
-                      }
-                      duration={minutes * 60 * (1 - (curTimer.progress ?? 0))}
+                      value={curTimer.isRunning ? 100 : 100 * progress}
+                      duration={minutes * 60 * 1000 * (1 - progress)}
                     />
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-4xl ">
-                      {secondsToTime(curTimer?.timeLeft ?? minutes * 60)}
+                      {secondsToTime(
+                        Math.round(minutes * 60 - curTimer.elapsedTime / 1000)
+                      )}
                     </div>
                   </div>
 
