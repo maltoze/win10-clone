@@ -35,14 +35,16 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const containerEle = containerRef.current;
-    if (!containerEle) {
-      return;
+    if (containerEle) {
+      containerEle.addEventListener('contextmenu', handleContextMenuEvent);
+      return () => {
+        containerEle?.removeEventListener(
+          'contextmenu',
+          handleContextMenuEvent
+        );
+      };
     }
-    containerEle.addEventListener('contextmenu', handleContextMenuEvent);
-    return () => {
-      containerEle?.removeEventListener('contextmenu', handleContextMenuEvent);
-    };
-  }, [containerRef]);
+  }, []);
 
   return (
     <Transition
