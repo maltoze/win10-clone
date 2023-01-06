@@ -128,7 +128,9 @@ export default function AlarmsClock() {
       <div className="flex grow flex-col bg-zinc-800">
         <div className="alarmsClock-drag-handle flex h-10 justify-between">
           <div className="ml-1.5 pt-3 pl-4 text-xs text-zinc-200 ">
-            <span className="inline-block @5xl:hidden select-none">Alarms & Clock</span>
+            <span className="inline-block select-none @5xl:hidden">
+              Alarms & Clock
+            </span>
           </div>
           <div>
             <WindowCloseButton
@@ -138,7 +140,7 @@ export default function AlarmsClock() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 overflow-y-auto px-4">
+        <div className="flex flex-wrap gap-2 overflow-y-auto px-4 scrollbar scrollbar-track-zinc-800 scrollbar-thumb-zinc-500 scrollbar-thumb-rounded-full scrollbar-w-[3px]">
           {defaultTimerKeys.map((minutes) => {
             const curTimer = timer?.[minutes];
             const progress = curTimer.elapsedTime / (minutes * 60 * 1000);
