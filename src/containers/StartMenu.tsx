@@ -56,7 +56,7 @@ const StartMenu = () => {
           <Dialog.Panel className="h-[576px] w-80 bg-zinc-800 shadow">
             <div className="start-leftbar">
               <div>
-                <button className="start-left-btn">
+                <button className="start-left-btn outline-none">
                   <span>
                     <MenuIcon className="h-5 w-5 fill-zinc-100" />
                   </span>
