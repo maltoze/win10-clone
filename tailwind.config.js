@@ -9,6 +9,10 @@ module.exports = {
         },
       },
     },
+    supports: {
+      ncontainer: 'not (container-type: inline-size)',
+      container: 'container-type: inline-size',
+    },
   },
   plugins: [
     require('@tailwindcss/container-queries'),

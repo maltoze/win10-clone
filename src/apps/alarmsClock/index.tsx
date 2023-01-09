@@ -81,13 +81,13 @@ export default function AlarmsClock() {
   };
 
   return (
-    <div className="flex h-full cursor-default text-zinc-100 @container">
-      <div className="w-12 bg-zinc-750 shadow @5xl:w-56">
+    <div className="flex h-full cursor-default text-zinc-100 supports-container:@container">
+      <div className="w-56 bg-zinc-750 shadow supports-container:w-12 supports-container:@5xl:w-56">
         <div className="alarmsClock-drag-handle flex h-10 items-center px-3 text-xs">
-          <span className="hidden select-none @5xl:inline-block">
+          <span className="select-none supports-container:hidden supports-container:@5xl:inline-block">
             Alarms & Clock
           </span>
-          <HamburgerMenuIcon className="inline-block h-5 w-5 @5xl:hidden" />
+          <HamburgerMenuIcon className="hidden h-5 w-5 supports-container:inline-block supports-container:@5xl:hidden" />
         </div>
         <div className="text-sm">
           {sidebarItems.map((item) => (
@@ -101,7 +101,7 @@ export default function AlarmsClock() {
                   <item.icon className="ml-2 h-[18px] w-[18px] text-zinc-200" />
                 </div>
               )}
-              <span className="hidden select-none @5xl:inline-block">
+              <span className="select-none supports-container:hidden supports-container:@5xl:inline-block">
                 {item.label}
               </span>
             </div>
@@ -112,7 +112,7 @@ export default function AlarmsClock() {
       <div className="flex grow flex-col bg-zinc-800">
         <div className="alarmsClock-drag-handle flex h-10 justify-between">
           <div className="ml-1.5 pt-3 pl-4 text-xs text-zinc-200 ">
-            <span className="inline-block select-none @5xl:hidden">
+            <span className="select-none supports-ncontainer:hidden supports-container:@5xl:hidden">
               Alarms & Clock
             </span>
           </div>
