@@ -4,17 +4,29 @@ import {
   ResetIcon,
   PlayIcon,
 } from '@radix-ui/react-icons';
+import React from 'react';
 import { secondsToTime } from '../../../utils';
+import useTimerAction from '../hooks/useTimerAction';
 import { TimerState } from '../types';
 import CircleProgress from './CircleProgress';
 
 type Props = {
   timer: TimerState;
   timerIdx: number;
-  onToggleTimer: (tIdx: number) => void;
 };
-export default function Timer({ timer, timerIdx, onToggleTimer }: Props) {
+
+const Timer = ({ timer, timerIdx }: Props) => {
+  const { pause, start } = useTimerAction(timer, timerIdx);
+
   const progress = timer.elapsedTime / (timer.totalSeconds * 1000);
+
+  const handleToggleTimer = () => {
+    if (timer.isRunning) {
+      pause();
+    } else {
+      start();
+    }
+  };
 
   return (
     <div className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75">
@@ -41,7 +53,7 @@ export default function Timer({ timer, timerIdx, onToggleTimer }: Props) {
         <div className="flex justify-center space-x-4 py-2">
           <button
             className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 hover:bg-blue-400"
-            onClick={() => onToggleTimer(timerIdx)}
+            onClick={handleToggleTimer}
           >
             {timer?.isRunning ? (
               <PauseIcon className="h-6 w-6" />
@@ -49,11 +61,13 @@ export default function Timer({ timer, timerIdx, onToggleTimer }: Props) {
               <PlayIcon className="h-6 w-6" />
             )}
           </button>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-600">
+          <button className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-zinc-600">
             <ResetIcon className="h-6 w-6 text-zinc-400" />
-          </div>
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default React.memo(Timer);

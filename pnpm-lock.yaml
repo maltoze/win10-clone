@@ -21,6 +21,8 @@ specifiers:
   immer: ^9.0.15
   jest: ^28.1.3
   jest-environment-jsdom: ^28.1.3
+  jotai: ^1.12.1
+  jotai-immer: ^0.1.0
   next: ^12.3.0
   postcss: ^8.4.14
   prettier: ^2.7.1
@@ -41,6 +43,8 @@ dependencies:
   '@radix-ui/react-icons': 1.1.1_react@18.2.0
   classnames: 2.3.1
   immer: 9.0.15
+  jotai: 1.12.1_ldhptygwmnff4nrhjg35c5utke
+  jotai-immer: 0.1.0_jgo26rf3sienteoz4qn5s46goa
   next: 12.3.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -3582,6 +3586,59 @@ packages:
       - supports-color
       - ts-node
     dev: true
+
+  /jotai-immer/0.1.0_jgo26rf3sienteoz4qn5s46goa:
+    resolution: {integrity: sha512-TwiPKgrf/V0tSh2CSEEilhhCHm0LSgIrZmIXvQRp7+aKT+cATNFUBJeSBUb42wMnTh43DoveGSUiTN1oyTv6Wg==}
+    peerDependencies:
+      immer: '*'
+      jotai: '*'
+      react: '>=17.0.0'
+    dependencies:
+      immer: 9.0.15
+      jotai: 1.12.1_ldhptygwmnff4nrhjg35c5utke
+      react: 18.2.0
+    dev: false
+
+  /jotai/1.12.1_ldhptygwmnff4nrhjg35c5utke:
+    resolution: {integrity: sha512-t6gsYM1WkQHMOazaZYLykCA+fh9KPDGrA+tDYzDeV0268QsCqmX6S4lO46uswgt1LGUeG0EDFGuMd9ac8cWNTA==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      jotai-immer: '*'
+      jotai-optics: '*'
+      jotai-redux: '*'
+      jotai-tanstack-query: '*'
+      jotai-urql: '*'
+      jotai-valtio: '*'
+      jotai-xstate: '*'
+      jotai-zustand: '*'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      jotai-immer:
+        optional: true
+      jotai-optics:
+        optional: true
+      jotai-redux:
+        optional: true
+      jotai-tanstack-query:
+        optional: true
+      jotai-urql:
+        optional: true
+      jotai-valtio:
+        optional: true
+      jotai-xstate:
+        optional: true
+      jotai-zustand:
+        optional: true
+    dependencies:
+      jotai-immer: 0.1.0_jgo26rf3sienteoz4qn5s46goa
+      react: 18.2.0
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}

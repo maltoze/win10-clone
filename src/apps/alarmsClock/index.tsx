@@ -5,11 +5,11 @@ import {
   LapTimerIcon,
   TimerIcon,
 } from '@radix-ui/react-icons';
-import { useImmer } from 'use-immer';
+import { useAtomValue } from 'jotai';
 import WindowCloseButton from '../../components/base/buttons/WindowCloseButton';
 import { useStore } from '../../store';
 import Timer from './components/Timer';
-import { TimerState } from './types';
+import { timersAtom } from './store';
 
 const sidebarItems = [
   { label: 'Timer', icon: LapTimerIcon },
@@ -24,61 +24,12 @@ const sidebarItems = [
   },
 ];
 
-const defaultTimerMinutes = [1, 5, 3, 10];
-const defaultTimer: TimerState[] = defaultTimerMinutes.map((minute) => ({
-  totalSeconds: minute * 60,
-  isRunning: false,
-  elapsedTime: 0,
-  lastStartTime: 0,
-  name: `${minute} min`,
-}));
-
 export default function AlarmsClock() {
   const { close } = useStore((state) => ({
     close: () => state.close('alarmsClock'),
   }));
 
-  const [timers, updateTimers] = useImmer<TimerState[]>(defaultTimer);
-
-  const handleOnToggleTimer = (tIdx: number) => {
-    if (timers[tIdx].isRunning) {
-      clearInterval(timers[tIdx].interval);
-      updateTimers((draft) => {
-        draft[tIdx].isRunning = false;
-        draft[tIdx].elapsedTime +=
-          new Date().getTime() - draft[tIdx].lastStartTime;
-      });
-      return;
-    }
-
-    updateTimers((draft) => {
-      draft[tIdx].lastStartTime = new Date().getTime();
-    });
-
-    const interval = setInterval(
-      (function _updateTimer() {
-        updateTimers((draft) => {
-          let elapsedTime =
-            draft[tIdx].elapsedTime +
-            (new Date().getTime() - draft[tIdx].lastStartTime);
-          let isRunning = true;
-
-          if (Math.round(elapsedTime / 1000) >= draft[tIdx].totalSeconds) {
-            clearInterval(draft[tIdx].interval ?? interval);
-            isRunning = false;
-            elapsedTime = 0;
-          }
-
-          draft[tIdx].lastStartTime = new Date().getTime();
-          draft[tIdx].elapsedTime = elapsedTime;
-          draft[tIdx].isRunning = isRunning;
-          draft[tIdx].interval = interval;
-        });
-        return _updateTimer;
-      })(),
-      1000
-    );
-  };
+  const timers = useAtomValue(timersAtom);
 
   return (
     <div className="flex h-full cursor-default text-zinc-100 supports-container:@container">
@@ -126,12 +77,7 @@ export default function AlarmsClock() {
 
         <div className="flex flex-wrap gap-2 overflow-y-auto px-4 scrollbar scrollbar-track-zinc-800 scrollbar-thumb-zinc-500 scrollbar-thumb-rounded-full scrollbar-w-[3px]">
           {timers.map((timer, tIdx) => (
-            <Timer
-              timer={timer}
-              timerIdx={tIdx}
-              key={`${timer.totalSeconds}-${tIdx}`}
-              onToggleTimer={handleOnToggleTimer}
-            />
+            <Timer timer={timer} timerIdx={tIdx} key={tIdx} />
           ))}
         </div>
       </div>
