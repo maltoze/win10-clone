@@ -1,11 +1,11 @@
 import cx from 'classnames';
 
 type Props = {
-  value: number;
+  value: number | null;
   duration: number;
 };
 
-export default function CircleProgress({ value = 0, duration }: Props) {
+export default function CircleProgress({ value, duration }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,13 +25,13 @@ export default function CircleProgress({ value = 0, duration }: Props) {
         className={cx(
           'stroke-[1.8] transition-[stroke-dashoffset] ease-linear [stroke-dasharray:100,100] [stroke-linecap:round]',
           {
-            'stroke-blue-500': value === 100,
-            'stroke-sky-600': value !== 100 && value !== 0,
+            'stroke-blue-500': value === 100 || value === 0,
+            'stroke-sky-600': value !== null && value !== 100 && value !== 0,
             'transition-none': value !== 100,
           }
         )}
         style={{
-          strokeDashoffset: value,
+          strokeDashoffset: value ?? 0,
           transitionDuration: `${duration}ms`,
         }}
       />

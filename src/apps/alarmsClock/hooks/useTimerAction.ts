@@ -6,6 +6,12 @@ import { TimerState } from '../types';
 export default function useTimerAction(timer: TimerState, tIdx: number) {
   const updateTimers = useSetAtom(timersAtom);
 
+  const reset = () => {
+    updateTimers((draft) => {
+      draft[tIdx].elapsedTime = 0;
+    });
+  };
+
   const pause = useCallback(() => {
     clearInterval(timer.interval);
     updateTimers((draft) => {
@@ -45,5 +51,5 @@ export default function useTimerAction(timer: TimerState, tIdx: number) {
     );
   }, [tIdx, updateTimers]);
 
-  return { pause, start };
+  return { pause, start, reset };
 }

@@ -9,6 +9,7 @@ import { secondsToTime } from '../../../utils';
 import useTimerAction from '../hooks/useTimerAction';
 import { TimerState } from '../types';
 import CircleProgress from './CircleProgress';
+import cx from 'classnames';
 
 type Props = {
   timer: TimerState;
@@ -16,16 +17,26 @@ type Props = {
 };
 
 const Timer = ({ timer, timerIdx }: Props) => {
-  const { pause, start } = useTimerAction(timer, timerIdx);
-
+  const { pause, start, reset } = useTimerAction(timer, timerIdx);
   const progress = timer.elapsedTime / (timer.totalSeconds * 1000);
 
-  const handleToggleTimer = () => {
-    if (timer.isRunning) {
-      pause();
+  let to: number | null = null;
+  if (timer.isRunning) {
+    if (progress === 0) {
+      to = 0;
     } else {
-      start();
+      to = 100;
     }
+  } else {
+    if (progress === 0) {
+      to = null;
+    } else {
+      to = 100 * progress;
+    }
+  }
+
+  const handleToggleTimer = () => {
+    timer.isRunning ? pause() : start();
   };
 
   return (
@@ -40,7 +51,7 @@ const Timer = ({ timer, timerIdx }: Props) => {
 
         <div className="relative">
           <CircleProgress
-            value={timer.isRunning ? 100 : 100 * progress}
+            value={to}
             duration={timer.totalSeconds * 1000 * (1 - progress)}
           />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-4xl ">
@@ -52,7 +63,7 @@ const Timer = ({ timer, timerIdx }: Props) => {
 
         <div className="flex justify-center space-x-4 py-2">
           <button
-            className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 hover:bg-blue-400"
+            className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 shadow hover:bg-blue-400"
             onClick={handleToggleTimer}
           >
             {timer?.isRunning ? (
@@ -61,8 +72,19 @@ const Timer = ({ timer, timerIdx }: Props) => {
               <PlayIcon className="h-6 w-6" />
             )}
           </button>
-          <button className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-zinc-600">
-            <ResetIcon className="h-6 w-6 text-zinc-400" />
+          <button
+            className={cx(
+              'flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-zinc-500 shadow',
+              { 'hover:bg-zinc-600': progress !== 0 || timer.isRunning }
+            )}
+            onClick={reset}
+          >
+            <ResetIcon
+              className={cx('h-6 w-6 ', {
+                'text-zinc-400': progress === 0 && !timer.isRunning,
+                'text-zinc-100': timer.isRunning || progress !== 0,
+              })}
+            />
           </button>
         </div>
       </div>
