@@ -47,16 +47,7 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
   }, []);
 
   return (
-    <Transition
-      show={isOpen}
-      enter="transition-opacity duration-75"
-      enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition-opacity duration-75"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-      as={Fragment}
-    >
+    <Transition show={isOpen} appear={true}>
       <Rnd
         position={{ x: left || 0, y: top || 0 }}
         size={{ width, height }}
@@ -83,13 +74,19 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
           right: { cursor: 'ew-resize' },
         }}
       >
-        <div
+        <Transition.Child
+          enter="transition-opacity ease-linear duration-75"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity ease-linear duration-75"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
           className="h-full w-full"
           onClick={handleOnFocus}
           ref={containerRef}
         >
           {children}
-        </div>
+        </Transition.Child>
       </Rnd>
     </Transition>
   );
