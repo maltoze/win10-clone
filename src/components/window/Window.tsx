@@ -75,9 +75,9 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
         }}
       >
         <Transition.Child
-          enter="transition-opacity ease-linear duration-75"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
+          enter="transition duration-75 transform"
+          enterFrom="scale-90"
+          enterTo="scale-100"
           leave="transition-opacity ease-linear duration-75"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
