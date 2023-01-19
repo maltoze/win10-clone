@@ -1,16 +1,20 @@
 import cx from 'classnames';
+import { AnimationControls, motion } from 'framer-motion';
+import React from 'react';
+import { useEffect } from 'react';
 
 type Props = {
-  value: number | null;
-  duration: number;
-};
+  isRunning: boolean;
+  controls: AnimationControls;
+} & React.ComponentProps<'svg'>;
 
-export default function CircleProgress({ value, duration }: Props) {
+const CircleProgress = (props: Props) => {
+  const { isRunning, className, controls, strokeDashoffset } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="-1 -1 34 34"
-      className="h-56 w-56 -rotate-90 fill-none"
+      className={cx('-rotate-90 fill-none', className)}
     >
       <circle
         cx="16"
@@ -18,23 +22,23 @@ export default function CircleProgress({ value, duration }: Props) {
         r="15.92"
         className="stroke-zinc-500 stroke-[1.8]"
       />
-      <circle
+      <motion.circle
         cx="16"
         cy="16"
         r="15.92"
         className={cx(
-          'stroke-[1.8] transition-[stroke-dashoffset] ease-linear [stroke-dasharray:100,100] [stroke-linecap:round]',
+          'stroke-[1.8] [stroke-dasharray:100,100] [stroke-linecap:round]',
           {
-            'stroke-blue-500': value === 100 || value === 0,
-            'stroke-sky-600': value !== null && value !== 100 && value !== 0,
-            'transition-none': value !== 100,
+            'stroke-blue-500': isRunning,
+            'stroke-sky-600':
+              strokeDashoffset && strokeDashoffset > 0 && !isRunning,
           }
         )}
-        style={{
-          strokeDashoffset: value ?? 0,
-          transitionDuration: `${duration}ms`,
-        }}
+        strokeDashoffset={strokeDashoffset}
+        animate={controls}
       />
     </svg>
   );
-}
+};
+
+export default CircleProgress;

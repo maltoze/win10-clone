@@ -95,6 +95,7 @@ const StartMenu = () => {
                       quality={100}
                       alt="Alarms & Clock"
                       className="h-8 w-8"
+                      placeholder='blur'
                     />
                     <span className="pl-1.5">Alarms & Clock</span>
                   </button>

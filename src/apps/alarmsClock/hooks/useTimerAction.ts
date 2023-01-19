@@ -1,10 +1,24 @@
-import { useCallback } from 'react';
-import { timersAtom } from '../store';
+import { expandedTimerAtom, timersAtom } from '../store';
 import { useSetAtom } from 'jotai';
 import { TimerState } from '../types';
 
-export default function useTimerAction(timer: TimerState, tIdx: number) {
+type Props = {
+  timer: TimerState;
+  tIdx: number;
+};
+
+export default function useTimerAction(props: Props) {
+  const { timer, tIdx } = props;
   const updateTimers = useSetAtom(timersAtom);
+  const setExpandedTimer = useSetAtom(expandedTimerAtom);
+
+  const restore = () => {
+    setExpandedTimer(null);
+  };
+
+  const expand = () => {
+    setExpandedTimer(tIdx);
+  };
 
   const reset = () => {
     updateTimers((draft) => {
@@ -12,18 +26,19 @@ export default function useTimerAction(timer: TimerState, tIdx: number) {
     });
   };
 
-  const pause = useCallback(() => {
-    clearInterval(timer.interval);
+  const pause = () => {
     updateTimers((draft) => {
       draft[tIdx].isRunning = false;
+      clearInterval(timer.interval);
       draft[tIdx].elapsedTime +=
         new Date().getTime() - draft[tIdx].lastStartTime;
     });
-  }, [timer.interval, updateTimers, tIdx]);
+  };
 
-  const start = useCallback(() => {
+  const start = () => {
     updateTimers((draft) => {
       draft[tIdx].lastStartTime = new Date().getTime();
+      draft[tIdx].isRunning = true;
     });
 
     const interval = setInterval(
@@ -32,24 +47,25 @@ export default function useTimerAction(timer: TimerState, tIdx: number) {
           let elapsedTime =
             draft[tIdx].elapsedTime +
             (new Date().getTime() - draft[tIdx].lastStartTime);
-          let isRunning = true;
 
           if (Math.round(elapsedTime / 1000) >= draft[tIdx].totalSeconds) {
-            clearInterval(draft[tIdx].interval ?? interval);
-            isRunning = false;
+            draft[tIdx].isRunning = false;
             elapsedTime = 0;
+            clearInterval(draft[tIdx].interval ?? interval);
           }
 
           draft[tIdx].lastStartTime = new Date().getTime();
           draft[tIdx].elapsedTime = elapsedTime;
-          draft[tIdx].isRunning = isRunning;
-          draft[tIdx].interval = interval;
         });
         return _updateTimer;
       })(),
       1000
     );
-  }, [tIdx, updateTimers]);
 
-  return { pause, start, reset };
+    updateTimers((draft) => {
+      draft[tIdx].interval = interval;
+    });
+  };
+
+  return { pause, start, reset, expand, restore };
 }

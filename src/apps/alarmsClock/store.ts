@@ -1,3 +1,4 @@
+import { atom } from 'jotai';
 import { atomWithImmer } from 'jotai-immer';
 import { TimerState } from './types';
 
@@ -11,3 +12,5 @@ const defaultTimers: TimerState[] = defaultTimerMinutes.map((minute) => ({
 }));
 
 export const timersAtom = atomWithImmer(defaultTimers);
+
+export const expandedTimerAtom = atom<number | null>(null);

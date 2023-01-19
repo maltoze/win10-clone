@@ -4,92 +4,177 @@ import {
   ResetIcon,
   PlayIcon,
 } from '@radix-ui/react-icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { secondsToTime } from '../../../utils';
 import useTimerAction from '../hooks/useTimerAction';
 import { TimerState } from '../types';
 import CircleProgress from './CircleProgress';
 import cx from 'classnames';
+import { useAtomValue } from 'jotai';
+import { expandedTimerAtom } from '../store';
+import { TbArrowsDiagonalMinimize2 } from 'react-icons/tb';
+import { motion, useAnimationControls } from 'framer-motion';
 
 type Props = {
   timer: TimerState;
-  timerIdx: number;
+  tIdx: number;
 };
 
-const Timer = ({ timer, timerIdx }: Props) => {
-  const { pause, start, reset } = useTimerAction(timer, timerIdx);
+const Timer = ({ timer, tIdx }: Props) => {
+  const controls = useAnimationControls();
+
+  const { pause, start, reset, expand, restore } = useTimerAction({
+    timer,
+    tIdx,
+  });
   const progress = timer.elapsedTime / (timer.totalSeconds * 1000);
 
-  let to: number | null = null;
-  if (timer.isRunning) {
-    if (progress === 0) {
-      to = 0;
-    } else {
-      to = 100;
-    }
-  } else {
-    if (progress === 0) {
-      to = null;
-    } else {
-      to = 100 * progress;
-    }
-  }
+  const expandedTimer = useAtomValue(expandedTimerAtom);
+  const isExpanded = expandedTimer !== null;
+  const isExpandedTimer = expandedTimer === tIdx;
 
   const handleToggleTimer = () => {
-    timer.isRunning ? pause() : start();
+    if (timer.isRunning) {
+      pause();
+    } else {
+      start();
+    }
   };
 
-  return (
-    <div className="pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75">
-      <div className="pointer-events-auto rounded-sm bg-zinc-750 py-2 pl-4 pr-2 shadow hover:rounded-none hover:shadow-none">
-        <div className="flex justify-between">
-          <div className="select-none text-sm">{timer.name}</div>
-          <div className="p-1.5 hover:bg-zinc-700">
-            <HeightIcon className="h-6 w-6 rotate-45" />
-          </div>
-        </div>
+  useEffect(() => {
+    if (timer.elapsedTime === 0) {
+      // cancel animation
+      controls.stop();
+      controls.set({ strokeDashoffset: 0 });
+    }
+  }, [controls, timer.elapsedTime]);
 
-        <div className="relative">
-          <CircleProgress
-            value={to}
-            duration={timer.totalSeconds * 1000 * (1 - progress)}
-          />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-4xl ">
-            {secondsToTime(
-              Math.round(timer.totalSeconds - timer.elapsedTime / 1000)
-            )}
-          </div>
-        </div>
+  useEffect(() => {
+    if (timer.isRunning) {
+      controls.start({
+        strokeDashoffset: 100,
+        transition: {
+          duration: timer.totalSeconds - timer.elapsedTime / 1000,
+          ease: 'linear',
+        },
+      });
+    } else {
+      controls.stop();
+    }
+  }, [timer.isRunning, controls, timer.totalSeconds, timer.elapsedTime]);
 
-        <div className="flex justify-center space-x-4 py-2">
-          <button
-            className="flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-blue-500 shadow hover:bg-blue-400"
-            onClick={handleToggleTimer}
+  if ((isExpanded && isExpandedTimer) || !isExpanded) {
+    return (
+      <div
+        className={cx({
+          'pointer-events-none p-1.5 transition-colors duration-100 ease-out hover:rounded-sm hover:bg-zinc-750 hover:shadow hover:delay-75':
+            !isExpanded,
+          'flex h-full items-center justify-center': isExpanded,
+        })}
+      >
+        <div
+          className={cx('pointer-events-auto h-full', {
+            'rounded-sm bg-zinc-750 pb-2 pt-1 shadow hover:rounded-none hover:shadow-none':
+              !isExpanded,
+            'flex flex-col items-center justify-center py-10 px-8 supports-container:w-full supports-container:@2xl:w-8/12 supports-container:@5xl:w-7/12':
+              isExpanded,
+          })}
+        >
+          <div className="flex w-full grow flex-col">
+            <div className="flex w-full grow-0 justify-between pl-4 pr-1">
+              <div className="flex select-none items-center text-sm">
+                {!isExpandedTimer && timer.name}
+              </div>
+              <motion.button
+                layout="position"
+                transition={{ duration: isExpanded ? 0.3 : 0 }}
+                className="cursor-default p-1.5 hover:bg-zinc-700"
+                onClick={isExpandedTimer ? restore : expand}
+              >
+                {isExpandedTimer ? (
+                  <TbArrowsDiagonalMinimize2 className="h-6 w-6 stroke-[1.5]" />
+                ) : (
+                  <HeightIcon className="h-6 w-6 rotate-45 stroke-[1.5]" />
+                )}
+              </motion.button>
+            </div>
+
+            <div
+              className={cx(
+                'relative flex grow items-center justify-center px-8 pb-2',
+                {
+                  'h-56 w-72': !isExpandedTimer,
+                  'w-full': isExpandedTimer,
+                }
+              )}
+            >
+              <motion.div
+                layout="position"
+                transition={{ duration: isExpanded ? 0.3 : 0 }}
+                className={cx('select-none text-4xl', {
+                  'text-6xl': isExpandedTimer,
+                })}
+              >
+                {secondsToTime(
+                  Math.round(timer.totalSeconds - timer.elapsedTime / 1000)
+                )}
+              </motion.div>
+              <CircleProgress
+                className={cx('absolute top-0', {
+                  'h-56 w-56': !isExpandedTimer,
+                  'h-full w-full py-6': isExpandedTimer,
+                })}
+                controls={controls}
+                strokeDashoffset={progress * 100}
+                isRunning={timer.isRunning}
+              />
+            </div>
+          </div>
+
+          <motion.div
+            layout="position"
+            transition={{ duration: isExpanded ? 0.3 : 0 }}
+            className="flex grow-0 justify-center space-x-4 py-2"
           >
-            {timer?.isRunning ? (
-              <PauseIcon className="h-6 w-6" />
-            ) : (
-              <PlayIcon className="h-6 w-6" />
-            )}
-          </button>
-          <button
-            className={cx(
-              'flex h-10 w-10 cursor-default items-center justify-center rounded-full bg-zinc-500 shadow',
-              { 'hover:bg-zinc-600': progress !== 0 || timer.isRunning }
-            )}
-            onClick={reset}
-          >
-            <ResetIcon
-              className={cx('h-6 w-6 ', {
-                'text-zinc-400': progress === 0 && !timer.isRunning,
-                'text-zinc-100': timer.isRunning || progress !== 0,
-              })}
-            />
-          </button>
+            <button
+              className={cx(
+                'flex cursor-default items-center justify-center rounded-full bg-blue-500 shadow hover:bg-blue-400',
+                { 'h-14 w-14': isExpanded, 'h-10 w-10': !isExpanded }
+              )}
+              onClick={handleToggleTimer}
+            >
+              {timer?.isRunning ? (
+                <PauseIcon className="h-6 w-6" />
+              ) : (
+                <PlayIcon className="h-6 w-6" />
+              )}
+            </button>
+            <button
+              className={cx(
+                'flex cursor-default items-center justify-center rounded-full bg-zinc-500 shadow',
+                {
+                  'hover:bg-zinc-600': progress !== 0 || timer.isRunning,
+                  'h-14 w-14': isExpanded,
+                  'h-10 w-10': !isExpanded,
+                }
+              )}
+              onClick={reset}
+              disabled={timer.elapsedTime === 0}
+            >
+              <ResetIcon
+                className={cx('h-6 w-6 ', {
+                  'text-zinc-400': progress === 0 && !timer.isRunning,
+                  'text-zinc-100': timer.isRunning || progress !== 0,
+                })}
+              />
+            </button>
+          </motion.div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return null;
 };
 
 export default React.memo(Timer);
