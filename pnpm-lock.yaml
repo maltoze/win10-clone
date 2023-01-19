@@ -36,6 +36,7 @@ specifiers:
   tailwind-scrollbar: ^2.1.0
   tailwindcss: ^3.2.4
   typescript: 4.7.4
+  use-debounce: ^9.0.3
   use-immer: ^0.8.1
   zustand: 4.0.0-rc.4
 
@@ -53,6 +54,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.7.1_react@18.2.0
   react-rnd: 10.3.7_biqbaboplfbrettd7655fr4n2y
+  use-debounce: 9.0.3_react@18.2.0
   use-immer: 0.8.1_immer@9.0.15+react@18.2.0
   zustand: 4.0.0-rc.4_immer@9.0.15+react@18.2.0
 
@@ -5105,6 +5107,15 @@ packages:
       '@types/react': 18.0.15
       react: 18.2.0
       tslib: 2.4.0
+    dev: false
+
+  /use-debounce/9.0.3_react@18.2.0:
+    resolution: {integrity: sha512-FhtlbDtDXILJV7Lix5OZj5yX/fW1tzq+VrvK1fnT2bUrPOGruU9Rw8NCEn+UI9wopfERBEZAOQ8lfeCJPllgnw==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /use-immer/0.8.1_immer@9.0.15+react@18.2.0:

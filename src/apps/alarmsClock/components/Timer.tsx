@@ -14,6 +14,7 @@ import { useAtomValue } from 'jotai';
 import { expandedTimerAtom } from '../store';
 import { TbArrowsDiagonalMinimize2 } from 'react-icons/tb';
 import { motion, useAnimationControls } from 'framer-motion';
+import { useDebouncedCallback } from 'use-debounce';
 
 type Props = {
   timer: TimerState;
@@ -23,23 +24,24 @@ type Props = {
 const Timer = ({ timer, tIdx }: Props) => {
   const controls = useAnimationControls();
 
-  const { pause, start, reset, expand, restore } = useTimerAction({
-    timer,
-    tIdx,
-  });
+  const { pause, start, reset, expand, restore } = useTimerAction(tIdx);
   const progress = timer.elapsedTime / (timer.totalSeconds * 1000);
 
   const expandedTimer = useAtomValue(expandedTimerAtom);
   const isExpanded = expandedTimer !== null;
   const isExpandedTimer = expandedTimer === tIdx;
 
-  const handleToggleTimer = () => {
-    if (timer.isRunning) {
-      pause();
-    } else {
-      start();
-    }
-  };
+  const handleToggleTimer = useDebouncedCallback(
+    () => {
+      if (timer.isRunning) {
+        pause();
+      } else {
+        start();
+      }
+    },
+    300,
+    { leading: true }
+  );
 
   useEffect(() => {
     if (timer.elapsedTime === 0) {

@@ -1,14 +1,7 @@
 import { expandedTimerAtom, timersAtom } from '../store';
 import { useSetAtom } from 'jotai';
-import { TimerState } from '../types';
 
-type Props = {
-  timer: TimerState;
-  tIdx: number;
-};
-
-export default function useTimerAction(props: Props) {
-  const { timer, tIdx } = props;
+export default function useTimerAction(tIdx: number) {
   const updateTimers = useSetAtom(timersAtom);
   const setExpandedTimer = useSetAtom(expandedTimerAtom);
 
@@ -29,7 +22,7 @@ export default function useTimerAction(props: Props) {
   const pause = () => {
     updateTimers((draft) => {
       draft[tIdx].isRunning = false;
-      clearInterval(timer.interval);
+      clearInterval(draft[tIdx].interval);
       draft[tIdx].elapsedTime +=
         new Date().getTime() - draft[tIdx].lastStartTime;
     });
@@ -44,18 +37,19 @@ export default function useTimerAction(props: Props) {
     const interval = setInterval(
       (function _updateTimer() {
         updateTimers((draft) => {
-          let elapsedTime =
+          const elapsedTime =
             draft[tIdx].elapsedTime +
             (new Date().getTime() - draft[tIdx].lastStartTime);
 
           if (Math.round(elapsedTime / 1000) >= draft[tIdx].totalSeconds) {
             draft[tIdx].isRunning = false;
-            elapsedTime = 0;
-            clearInterval(draft[tIdx].interval ?? interval);
+            draft[tIdx].elapsedTime = 0;
+            draft[tIdx].lastStartTime = 0;
+            clearInterval(draft[tIdx].interval);
+          } else {
+            draft[tIdx].lastStartTime = new Date().getTime();
+            draft[tIdx].elapsedTime = elapsedTime;
           }
-
-          draft[tIdx].lastStartTime = new Date().getTime();
-          draft[tIdx].elapsedTime = elapsedTime;
         });
         return _updateTimer;
       })(),
