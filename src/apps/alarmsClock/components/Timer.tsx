@@ -144,8 +144,9 @@ const Timer = ({ timer, tIdx }: Props) => {
                 { 'h-14 w-14': isExpanded, 'h-10 w-10': !isExpanded }
               )}
               onClick={handleToggleTimer}
+              title={timer.isRunning ? 'Pause' : 'Start'}
             >
-              {timer?.isRunning ? (
+              {timer.isRunning ? (
                 <PauseIcon className="h-6 w-6" />
               ) : (
                 <PlayIcon className="h-6 w-6" />
@@ -162,6 +163,7 @@ const Timer = ({ timer, tIdx }: Props) => {
               )}
               onClick={reset}
               disabled={timer.elapsedTime === 0}
+              title="Reset"
             >
               <ResetIcon
                 className={cx('h-6 w-6 ', {

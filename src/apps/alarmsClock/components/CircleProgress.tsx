@@ -36,6 +36,7 @@ const CircleProgress = (props: Props) => {
         )}
         strokeDashoffset={strokeDashoffset}
         animate={controls}
+        data-testid="timer-circle"
       />
     </svg>
   );
