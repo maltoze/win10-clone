@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import Head from 'next/head';
 import { useEffect } from 'react';
 import Desktop from '../containers/desktop/Desktop';
 import Taskbar from '../containers/Taskbar';
@@ -15,10 +16,15 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div className="bg-bing absolute inset-0 flex flex-col overflow-hidden">
-      <Desktop />
-      <Taskbar />
-    </div>
+    <>
+      <Head>
+        <title>Windows 10</title>
+      </Head>
+      <div className="bg-bing absolute inset-0 flex flex-col overflow-hidden">
+        <Desktop />
+        <Taskbar />
+      </div>
+    </>
   );
 };
 
