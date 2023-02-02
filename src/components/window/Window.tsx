@@ -1,4 +1,4 @@
-import React, { Fragment, PropsWithChildren, useEffect, useRef } from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import { Rnd } from 'react-rnd';
 import { useStore } from '../../store';
 import { AppWindowProps } from '../../types';
@@ -46,11 +46,18 @@ const Window = ({ name: appName, children }: PropsWithChildren<Props>) => {
     }
   }, []);
 
+  let wSize = { width, height };
+  let wPosition = { x: left || 0, y: top || 0 };
+  if (window.screen.width <= 768) {
+    wSize = { width: '100%', height: '100%' };
+    wPosition = { x: 0, y: 0 };
+  }
+
   return (
     <Transition show={isOpen} appear={true}>
       <Rnd
-        position={{ x: left || 0, y: top || 0 }}
-        size={{ width, height }}
+        position={wPosition}
+        size={wSize}
         onDragStart={handleOnFocus}
         onDrag={(e, d) => {
           moveWindow(appName, d.x, d.y);
