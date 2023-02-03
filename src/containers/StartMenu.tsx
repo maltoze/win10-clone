@@ -66,7 +66,7 @@ const StartMenu = () => {
           onContextMenu={(e: React.MouseEvent) => e.preventDefault()}
         >
           <Dialog.Panel className="h-[576px] w-80 bg-zinc-800 shadow">
-            <div className="start-leftbar">
+            <div className="start-leftbar z-20">
               <div>
                 <button className="start-left-btn outline-none">
                   <span>
