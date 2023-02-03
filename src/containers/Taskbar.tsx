@@ -30,7 +30,7 @@ const menuItems = [
   [{ label: 'Lock all taskbars' }, { label: 'Taskbar settings' }],
 ];
 
-const taskbarApps = ['chrome'];
+const taskbarApps = ['chrome', 'alarmsClock'];
 
 const Taskbar = () => {
   const { open, handleOnFocus, apps } = useStore();
