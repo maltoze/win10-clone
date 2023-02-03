@@ -2,19 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .bg-bing {
-    @apply bg-zinc-500;
-    background-image: url(https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-}
-
 @layer components {
   .menu-item {
-    @apply w-64 cursor-default py-2.5 pl-8 text-left outline-0 hover:bg-zinc-700 focus:bg-zinc-700 disabled:text-zinc-400 disabled:hover:bg-zinc-800;
+    @apply w-64 cursor-default py-2.5 pl-8 text-left outline-0 focus:bg-zinc-700 disabled:text-zinc-400 hover:bg-zinc-700 disabled:hover:bg-zinc-800;
 
     &[data-disabled] {
       @apply text-zinc-400 hover:bg-zinc-800;

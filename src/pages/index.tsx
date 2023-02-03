@@ -20,7 +20,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Windows 10</title>
       </Head>
-      <div className="bg-bing absolute inset-0 flex flex-col overflow-hidden">
+      <div className="absolute inset-0 flex flex-col overflow-hidden">
         <Desktop />
         <Taskbar />
       </div>
