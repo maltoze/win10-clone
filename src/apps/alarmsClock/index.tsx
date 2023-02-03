@@ -40,7 +40,7 @@ export default function AlarmsClock() {
   const timersY = useMotionValue(0);
   const initialRef = useRef(true);
   useEffect(() => {
-    // disable animation during initial render 
+    // disable animation during initial render
     if (!isExpanded && !initialRef.current) {
       animate(timersY, 0, { from: 300, duration: 0.2, ease: 'easeInOut' });
     }
@@ -78,7 +78,7 @@ export default function AlarmsClock() {
         </div>
       )}
 
-      <div className="flex grow flex-col bg-zinc-800">
+      <div className="flex grow flex-col overflow-hidden bg-zinc-800">
         <div className="alarmsClock-drag-handle flex h-10 justify-between">
           <div className="ml-1.5 pt-3 pl-4 text-xs text-zinc-200 ">
             <span
@@ -102,7 +102,7 @@ export default function AlarmsClock() {
           className={cx(
             'gap-2 px-4 scrollbar scrollbar-track-zinc-800 scrollbar-thumb-zinc-500 scrollbar-thumb-rounded-full scrollbar-w-[3px]',
             {
-              'flex flex-wrap overflow-y-auto': !isExpanded,
+              'flex flex-wrap': !isExpanded,
               'h-full': isExpanded,
             }
           )}
