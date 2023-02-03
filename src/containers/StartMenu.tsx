@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Disclosure, Transition } from '@headlessui/react';
 import WinLogo from '../components/icons/WinLogo';
 import SettingsIcon from '../components/icons/SettingsIcon';
 import ShutdownIcon from '../components/icons/ShutdownIcon';
@@ -7,16 +7,28 @@ import MenuIcon from '../components/icons/MenuIcon';
 import PictureIcon from '../components/icons/PictureIcon';
 import FileIcon from '../components/icons/FileIcon';
 import GenderNeutralUserIcon from '../components/icons/GenderNeutralUserIcon';
-import Image from 'next/future/image';
-import alarmsClockPic from '../assets/icons/alarms-clock.png';
 import { useStore } from '../store';
+import { config as appsConfig } from '../apps';
+import Image from 'next/future/image';
+import fileFolderIcon from '../assets/icons/icons8-file-folder-96.png';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
+import cx from 'classnames';
 
-const folders = [
+const leftSideBtns = [
   { icon: FileIcon, label: 'Documents' },
   { icon: PictureIcon, label: 'Pictures' },
   { icon: SettingsIcon, label: 'Settings' },
   { icon: ShutdownIcon, label: 'Power' },
 ];
+
+type AppList = { name: string; type: string; apps?: string[] }[];
+
+const apps: {
+  [key: string]: AppList;
+} = {
+  A: [{ name: 'alarmsClock', type: 'app' }],
+  W: [{ type: 'folder', name: 'Windows Accessories', apps: ['notepad'] }],
+};
 
 const StartMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,37 +82,89 @@ const StartMenu = () => {
                   </span>
                   <span className="px-4">Guest</span>
                 </button>
-                {folders.map((folder, idx) => (
+                {leftSideBtns.map((btn, idx) => (
                   <button className="start-left-btn" key={idx}>
                     <span>
-                      <folder.icon className="h-5 w-5 fill-zinc-100" />
+                      <btn.icon className="h-5 w-5 fill-zinc-100" />
                     </span>
-                    <span className="px-4">{folder.label}</span>
+                    <span className="px-4">{btn.label}</span>
                   </button>
                 ))}
               </div>
             </div>
             <div className="pl-14 pt-1.5 text-xs text-zinc-100">
-              <div>
-                <button className="w-full pl-3.5 pt-2.5 pb-1.5 text-left hover:bg-zinc-700">
-                  A
-                </button>
-                <div>
-                  <button
-                    className="inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
-                    onClick={() => handleOpenApp('alarmsClock')}
-                  >
-                    <Image
-                      src={alarmsClockPic}
-                      quality={100}
-                      alt="Alarms & Clock"
-                      className="h-8 w-8"
-                      placeholder='blur'
-                    />
-                    <span className="pl-1.5">Alarms & Clock</span>
-                  </button>
-                </div>
-              </div>
+              {(Object.keys(apps) as Array<keyof typeof apps>).map(
+                (category) => (
+                  <div key={category}>
+                    <button className="w-full pl-3 pt-3 pb-1.5 text-left hover:bg-zinc-700">
+                      {category}
+                    </button>
+                    {apps[category].map((app) =>
+                      app.type === 'folder' ? (
+                        <Disclosure key={app.name}>
+                          {({ open }) => (
+                            <>
+                              <Disclosure.Button className="group relative z-10 flex h-10 w-full items-center justify-between py-1 pl-0.5 pr-2 hover:bg-zinc-700">
+                                <div className="inline-flex items-center group-active:scale-[0.96]">
+                                  <Image
+                                    src={fileFolderIcon}
+                                    alt={app.name}
+                                    width="32"
+                                    height="32"
+                                  />
+                                  <span className="pl-1.5">{app.name}</span>
+                                </div>
+                                <div>
+                                  <ChevronDownIcon
+                                    className={cx(
+                                      'h-3.5 w-3.5 transition-transform duration-75',
+                                      {
+                                        'rotate-180': open,
+                                      }
+                                    )}
+                                  />
+                                </div>
+                              </Disclosure.Button>
+                              <Transition
+                                enter="transition duration-300 ease-out"
+                                enterFrom="transform -translate-y-3"
+                                enterTo="transform translate-y-0"
+                              >
+                                <Disclosure.Panel className="relative z-0">
+                                  {app.apps?.map((name) => (
+                                    <button
+                                      className="inline-flex w-full items-center py-1 pl-4 hover:bg-zinc-700"
+                                      key={name}
+                                    >
+                                      {appsConfig[name].icon}
+                                      <span className="pl-1.5">
+                                        {appsConfig[name].label}
+                                      </span>
+                                    </button>
+                                  ))}
+                                </Disclosure.Panel>
+                              </Transition>
+                            </>
+                          )}
+                        </Disclosure>
+                      ) : (
+                        <button
+                          className="group inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
+                          onClick={() => handleOpenApp('alarmsClock')}
+                          key={app.name}
+                        >
+                          <div className="inline-flex items-center group-active:scale-[0.96]">
+                            {appsConfig[app.name].icon}
+                            <span className="pl-1.5">
+                              {appsConfig[app.name].label}
+                            </span>
+                          </div>
+                        </button>
+                      )
+                    )}
+                  </div>
+                )
+              )}
             </div>
           </Dialog.Panel>
         </Dialog>

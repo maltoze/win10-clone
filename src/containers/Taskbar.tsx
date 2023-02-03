@@ -30,14 +30,7 @@ const menuItems = [
   [{ label: 'Lock all taskbars' }, { label: 'Taskbar settings' }],
 ];
 
-const taskbarApps = [
-  {
-    component: <WinSearch className="block h-6 w-6 fill-white" />,
-  },
-  {
-    name: appsConfig.chrome.name,
-  },
-];
+const taskbarApps = ['chrome'];
 
 const Taskbar = () => {
   const { open, handleOnFocus, apps } = useStore();
@@ -81,24 +74,25 @@ const Taskbar = () => {
         >
           <div className="flex space-x-[1px]">
             <StartMenu />
+            <IconButton isOpen={false}>
+              <WinSearch className="block h-6 w-6 fill-white" />
+            </IconButton>
             {hydrated && [
-              ...taskbarApps.map((app, index) => (
+              ...taskbarApps.map((name, index) => (
                 <IconButton
                   key={`taskbar-app-${index}`}
-                  isOpen={app.name ? apps[app.name]?.isOpen ?? false : false}
-                  onClick={() => app.name && handleOnClick(app.name)}
-                  data-testid={`taskbar-btn-${app.name}`}
-                  isFocus={focusApp === app.name}
+                  isOpen={apps[name]?.isOpen ?? false}
+                  onClick={() => name && handleOnClick(name)}
+                  data-testid={`taskbar-btn-${name}`}
+                  isFocus={focusApp === name}
                 >
-                  {app.name ? appsConfig[app.name].taskbarIcon : app.component}
+                  {appsConfig[name].icon}
                 </IconButton>
               )),
 
               ...Object.keys(apps)
                 .filter((name) => apps[name].isOpen)
-                .filter(
-                  (name) => !taskbarApps.map((item) => item.name).includes(name)
-                )
+                .filter((name) => !taskbarApps.includes(name))
                 .map((name, index) => (
                   <IconButton
                     key={`opened-app-${index}`}
@@ -106,7 +100,7 @@ const Taskbar = () => {
                     onClick={() => handleOnClick(name)}
                     isFocus={focusApp === name}
                   >
-                    {appsConfig[name].taskbarIcon}
+                    {appsConfig[name].icon}
                   </IconButton>
                 )),
             ]}

@@ -26,3 +26,5 @@ export type MenuItem = {
   disabled?: boolean;
   submenus?: MenuItem[];
 };
+
+export type IconProps = { className: string };

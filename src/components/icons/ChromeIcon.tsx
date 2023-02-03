@@ -1,6 +1,6 @@
-import { SVGProps } from "react";
+import { IconProps } from '../../types';
 
-export default function ChromeIcon(props: SVGProps<SVGSVGElement>) {
+export default function ChromeIcon(props: IconProps) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" {...props}>
       <linearGradient
