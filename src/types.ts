@@ -27,4 +27,4 @@ export type MenuItem = {
   submenus?: MenuItem[];
 };
 
-export type IconProps = { className: string };
+export type IconProps = { className: string; priority?: boolean };

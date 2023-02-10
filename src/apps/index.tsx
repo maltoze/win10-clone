@@ -38,7 +38,7 @@ export const config: { [key: string]: App } = {
     minWidth: 100,
     minHeight: 100,
     component: <AlarmsClock />,
-    icon: <AlarmsClockIcon className="h-8 w-8" />,
+    icon: <AlarmsClockIcon className="h-8 w-8" priority={true} />,
   },
   notepad: {
     name: 'notepad',
