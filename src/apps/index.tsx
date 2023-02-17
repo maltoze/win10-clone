@@ -13,12 +13,13 @@ type App = {
   minHeight: number;
   component: React.ReactNode;
   icon: React.ReactNode;
+  startMenuIcon?: React.ReactNode;
 };
 
 export const config: { [key: string]: App } = {
   chrome: {
     name: 'chrome',
-    label: 'Chrome',
+    label: 'Google Chrome',
     defaultState: {
       location: { top: 0, left: 0, originLeft: 0, originTop: 0 },
       dimensions: { width: '100%', height: '100%' },
@@ -26,7 +27,8 @@ export const config: { [key: string]: App } = {
     minWidth: 300,
     minHeight: 76,
     component: <Chrome />,
-    icon: <ChromeIcon className="h-6 w-6" />,
+    startMenuIcon: <ChromeIcon className="ml-0.5 h-6 w-6" />,
+    icon: <ChromeIcon className="h-6 w-6 " />,
   },
   alarmsClock: {
     name: 'alarmsClock',

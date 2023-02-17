@@ -27,6 +27,7 @@ const apps: {
   [key: string]: AppList;
 } = {
   A: [{ name: 'alarmsClock', type: 'app' }],
+  G: [{ name: 'chrome', type: 'app' }],
   W: [{ type: 'folder', name: 'Windows Accessories', apps: ['notepad'] }],
 };
 
@@ -149,12 +150,12 @@ const StartMenu = () => {
                         </Disclosure>
                       ) : (
                         <button
-                          className="group inline-flex w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
-                          onClick={() => handleOpenApp('alarmsClock')}
+                          className="group inline-flex h-10 w-full items-center py-1 pl-0.5 hover:bg-zinc-700"
+                          onClick={() => handleOpenApp(app.name)}
                           key={app.name}
                         >
                           <div className="inline-flex items-center group-active:scale-[0.96]">
-                            {appsConfig[app.name].icon}
+                            {appsConfig[app.name]?.startMenuIcon ?? appsConfig[app.name].icon}
                             <span className="pl-1.5">
                               {appsConfig[app.name].label}
                             </span>
