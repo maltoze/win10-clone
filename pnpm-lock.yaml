@@ -14,6 +14,7 @@ specifiers:
   '@types/react': 18.0.15
   '@types/react-dom': 18.0.6
   '@types/testing-library__jest-dom': ^5.14.5
+  '@vercel/analytics': ^0.1.10
   autoprefixer: ^10.4.7
   classnames: ^2.3.1
   eslint: 8.19.0
@@ -44,6 +45,7 @@ dependencies:
   '@headlessui/react': 1.7.1_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-context-menu': 2.0.1_bb2bxwco6ptpubzwpazr52qf6i
   '@radix-ui/react-icons': 1.1.1_react@18.2.0
+  '@vercel/analytics': 0.1.10_react@18.2.0
   classnames: 2.3.1
   framer-motion: 8.5.0_biqbaboplfbrettd7655fr4n2y
   immer: 9.0.15
@@ -1573,6 +1575,14 @@ packages:
       '@typescript-eslint/types': 5.30.6
       eslint-visitor-keys: 3.3.0
     dev: true
+
+  /@vercel/analytics/0.1.10_react@18.2.0:
+    resolution: {integrity: sha512-jjJ8GzcPnQp0cMxpfYoUycMRBtDiaIeyVjZPiEPe99Dj1PdjMzAFYEASiV/hpNsXHkpcNYCveDFh6jnmh0YSDQ==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
