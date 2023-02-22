@@ -136,6 +136,7 @@ const StartMenu = () => {
                                     <button
                                       className="inline-flex w-full items-center py-1 pl-4 hover:bg-zinc-700"
                                       key={name}
+                                      onClick={() => handleOpenApp(name)}
                                     >
                                       {appsConfig[name].icon}
                                       <span className="pl-1.5">
@@ -155,7 +156,8 @@ const StartMenu = () => {
                           key={app.name}
                         >
                           <div className="inline-flex items-center group-active:scale-[0.96]">
-                            {appsConfig[app.name]?.startMenuIcon ?? appsConfig[app.name].icon}
+                            {appsConfig[app.name]?.startMenuIcon ??
+                              appsConfig[app.name].icon}
                             <span className="pl-1.5">
                               {appsConfig[app.name].label}
                             </span>

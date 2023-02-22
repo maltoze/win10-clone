@@ -4,6 +4,7 @@ import AlarmsClock from './alarmsClock';
 import Chrome from './chrome';
 import NotepadIcon from '../components/icons/NotepadIcon';
 import AlarmsClockIcon from '../components/icons/AlarmsClockIcon';
+import Notepad from './notepad';
 
 type App = {
   name: string;
@@ -46,12 +47,12 @@ export const config: { [key: string]: App } = {
     name: 'notepad',
     label: 'Notepad',
     defaultState: {
-      location: { top: 4, left: 100, originLeft: 0, originTop: 0 },
-      dimensions: { width: 800, height: 600 },
+      location: { top: 100, left: 150, originLeft: 0, originTop: 0 },
+      dimensions: { width: 600, height: 500 },
     },
     minWidth: 100,
     minHeight: 100,
-    component: <h1>Notepad</h1>,
+    component: <Notepad />,
     icon: <NotepadIcon className="h-6 w-6" />,
   },
 };
