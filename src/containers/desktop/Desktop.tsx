@@ -46,7 +46,7 @@ const Desktop = () => {
             src="https://bing.biturl.top/?resolution=1920&format=image&index=0"
             alt="bg-bing"
             fill={true}
-            className="pointer-events-none object-cover"
+            className="pointer-events-none object-cover select-none"
             quality={100}
           />
           {hydrated && <OpenedApp />}
