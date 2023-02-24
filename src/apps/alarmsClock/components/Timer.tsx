@@ -136,7 +136,7 @@ const Timer = ({ timer, tIdx }: Props) => {
           <motion.div
             layout="position"
             transition={{ duration: isExpanded ? 0.3 : 0 }}
-            className="flex grow-0 justify-center space-x-4 py-2"
+            className="z-10 flex grow-0 justify-center space-x-4 py-2"
           >
             <button
               className={cx(
