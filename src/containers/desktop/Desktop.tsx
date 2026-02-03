@@ -41,7 +41,7 @@ const Desktop = () => {
     <ContextMenu.Root modal={false}>
       <ContextMenu.Trigger asChild={true}>
         <div 
-          className="relative flex-grow bg-gradient-to-br from-blue-500 to-blue-700" 
+          className="relative flex-grow" 
           data-testid="desktop"
           style={{
             backgroundImage: 'linear-gradient(135deg, #0078d4 0%, #0063b1 100%)',
