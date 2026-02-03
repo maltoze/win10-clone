@@ -3,6 +3,7 @@ import * as ContextMenu from '@radix-ui/react-context-menu';
 import OpenedApp from './OpenedApp';
 import { MenuItem } from '../../types';
 import ContextMenuContent from '../../components/base/ContextMenuContent';
+import Image from 'next/image';
 
 const Desktop = () => {
   const hydrated = useHydration();
@@ -40,13 +41,15 @@ const Desktop = () => {
   return (
     <ContextMenu.Root modal={false}>
       <ContextMenu.Trigger asChild={true}>
-        <div 
-          className="relative flex-grow" 
-          data-testid="desktop"
-          style={{
-            backgroundImage: 'linear-gradient(135deg, #0078d4 0%, #0063b1 100%)',
-          }}
-        >
+        <div className="relative flex-grow" data-testid="desktop">
+          <Image
+            src="https://bing.biturl.top/?resolution=1920&format=image&index=0"
+            alt="bg-bing"
+            fill={true}
+            className="pointer-events-none object-cover select-none"
+            quality={100}
+            unoptimized
+          />
           {hydrated && <OpenedApp />}
         </div>
       </ContextMenu.Trigger>
