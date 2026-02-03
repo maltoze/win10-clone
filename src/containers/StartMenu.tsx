@@ -9,7 +9,7 @@ import FileIcon from '../components/icons/FileIcon';
 import GenderNeutralUserIcon from '../components/icons/GenderNeutralUserIcon';
 import { useStore } from '../store';
 import { config as appsConfig } from '../apps';
-import Image from 'next/future/image';
+import Image from 'next/image';
 import fileFolderIcon from '../assets/icons/icons8-file-folder-96.png';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import cx from 'classnames';

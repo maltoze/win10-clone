@@ -3,7 +3,7 @@ import * as ContextMenu from '@radix-ui/react-context-menu';
 import OpenedApp from './OpenedApp';
 import { MenuItem } from '../../types';
 import ContextMenuContent from '../../components/base/ContextMenuContent';
-import Image from 'next/future/image';
+import Image from 'next/image';
 
 const Desktop = () => {
   const hydrated = useHydration();
@@ -48,6 +48,7 @@ const Desktop = () => {
             fill={true}
             className="pointer-events-none object-cover select-none"
             quality={100}
+            unoptimized
           />
           {hydrated && <OpenedApp />}
         </div>
