@@ -1,4 +1,4 @@
-import Image from 'next/future/image';
+import Image from 'next/image';
 import alarmsClockIcon from '../../assets/icons/alarms-clock.png';
 import { IconProps } from '../../types';
 

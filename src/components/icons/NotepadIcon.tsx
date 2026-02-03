@@ -1,4 +1,4 @@
-import Image from 'next/future/image';
+import Image from 'next/image';
 import notepadIcon from '../../assets/icons/notepad.png';
 import { IconProps } from '../../types';
 
