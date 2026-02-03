@@ -7,7 +7,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'bing.biturl.top',
-        pathname: '/',
+        pathname: '/**',
       },
     ],
     minimumCacheTTL: 60,
